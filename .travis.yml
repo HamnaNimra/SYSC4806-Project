@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - oraclejdk15
+  - oraclejdk11
 deploy:
   provider: heroku
   api_key: $HEROKU_API_KEY
