@@ -1,7 +1,6 @@
-package Sysc4806Group.demo.Repository;
+package Sysc4806Group.demo.repositories;
 
-import Sysc4806Group.demo.Entity.Book;
-import Sysc4806Group.demo.Entity.BookStore;
+import Sysc4806Group.demo.entities.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookRepository extends JpaRepository<Book, Long> {

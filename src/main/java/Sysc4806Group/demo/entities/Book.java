@@ -1,4 +1,4 @@
-package Sysc4806Group.demo.Entity;
+package Sysc4806Group.demo.entities;
 
 import javax.persistence.*;
 
