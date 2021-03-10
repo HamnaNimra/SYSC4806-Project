@@ -1,9 +1,12 @@
 package Sysc4806Group.demo;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class Book {
+
+    @Id
     private String isbn;
     private String title;
     private String author;
