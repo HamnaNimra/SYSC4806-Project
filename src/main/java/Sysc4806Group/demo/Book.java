@@ -5,14 +5,14 @@ import java.util.List;
 
 public class Book {
 
-    private long id;
-    private String book_name;
-    private int ISBN;
+    private String bookId;
+    private String bookName;
+    private String ISBN;
     List<Integer> books = new ArrayList<>();
 
-    public Book(long id, String book_name, int ISBN){
-        this.id = id;
-        this.book_name = book_name;
+    public Book(String bookId, String bookName, String ISBN) {
+        this.bookId = bookId;
+        this.bookName = bookName;
         this.ISBN = ISBN;
     }
 
@@ -40,9 +40,9 @@ public class Book {
         this.ISBN = ISBN;
     }*/
 
-    public void removeBook(String book_name, List<Integer> books) {
+    public void removeBook(String bookName, List<Integer> books) {
         if (!this.books.isEmpty()) {
-            this.books.remove(book_name);
+            this.books.remove(bookName);
 
         }
     }
@@ -51,7 +51,7 @@ public class Book {
         if (this == obj) return true;
         if (this == null) return false;
         if (this.getClass() != obj.getClass()) return false;
-        Book book = (Book)obj;
-        return this.book_name.equals(book.book_name);
+        Book book = (Book) obj;
+        return this.bookName.equals(book.bookName);
     }
 }
