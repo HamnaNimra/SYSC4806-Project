@@ -28,6 +28,10 @@ public class User {
         this.uid = uid;
     }
 
+    public User() {
+
+    };
+
     public String getUid() {
         return uid;
     }
