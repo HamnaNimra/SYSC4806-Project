@@ -11,7 +11,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="SYSC4806-Project" target="11" />
-      <module name="wrapper" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

@@ -14,10 +14,11 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
+.idea/libraries/*
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +32,4 @@ build/
 
 ### VS Code ###
 .vscode/
+
