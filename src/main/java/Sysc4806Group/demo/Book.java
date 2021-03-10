@@ -67,4 +67,8 @@ public class Book {
     public void setInventory(int inventory) {
         this.inventory = inventory;
     }
+
+    public void sold() {
+        this.inventory -= 1;
+    }
 }
