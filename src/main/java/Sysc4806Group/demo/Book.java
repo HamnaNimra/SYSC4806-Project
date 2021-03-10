@@ -4,54 +4,67 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Book {
+    private String isbn;
+    private String title;
+    private String author;
+    private String publisher;
+    private String pictureUrl;
+    private int inventory;
 
-    private String bookId;
-    private String bookName;
-    private String ISBN;
-    List<Integer> books = new ArrayList<>();
-
-    public Book(String bookId, String bookName, String ISBN) {
-        this.bookId = bookId;
-        this.bookName = bookName;
-        this.ISBN = ISBN;
+    public Book(String isbn, String title, String author, String publisher, String pictureUrl, int inventory) {
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.pictureUrl = pictureUrl;
+        this.inventory = inventory;
     }
 
-/*    public long getId() {
-        return id;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
-    public String getBook_name() {
-        return book_name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBook_name(String book_name) {
-        this.book_name = book_name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public int getISBN() {
-        return ISBN;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setISBN(int ISBN) {
-        this.ISBN = ISBN;
-    }*/
-
-    public void removeBook(String bookName, List<Integer> books) {
-        if (!this.books.isEmpty()) {
-            this.books.remove(bookName);
-
-        }
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public boolean isEqual(Object obj) {
-        if (this == obj) return true;
-        if (this == null) return false;
-        if (this.getClass() != obj.getClass()) return false;
-        Book book = (Book) obj;
-        return this.bookName.equals(book.bookName);
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
+
+    public int getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
     }
 }
