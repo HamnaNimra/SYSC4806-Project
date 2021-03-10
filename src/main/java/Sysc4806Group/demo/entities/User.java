@@ -1,4 +1,6 @@
-package Sysc4806Group.demo;
+package Sysc4806Group.demo.entities;
+
+import Sysc4806Group.demo.entities.Book;
 
 import javax.persistence.*;
 
