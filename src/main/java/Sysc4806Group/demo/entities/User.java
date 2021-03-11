@@ -62,6 +62,18 @@ public class User {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Book> getPurchasedBooks() {
+        return purchasedBooks;
+    }
+
+    public void setPurchasedBooks(List<Book> purchasedBooks) {
+        this.purchasedBooks = purchasedBooks;
+    }
+
     public boolean purchaseBook(Book book) {
         if (book.getInventory() > 0) {
             purchasedBooks.add(book);
