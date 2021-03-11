@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class BookController {
     private final BookRepository repository;
@@ -35,7 +37,9 @@ public class BookController {
 
     @GetMapping("/bookstore")
     public String bookstore(Model model){
-        
+        List<Book> books = repository.findAll();
+        model.addAttribute("books", books);
+        return "bookstore";
     }
 
     @PostMapping("/updateBook")
