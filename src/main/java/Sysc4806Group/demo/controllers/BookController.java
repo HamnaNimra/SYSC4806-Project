@@ -35,6 +35,12 @@ public class BookController {
         }
     }
 
+    @GetMapping("/uploadBook")
+    public String uploadBookForm(Model model){
+        model.addAttribute("template", new Book());
+        return "upload-book";
+    }
+
     @GetMapping("/bookstore")
     public String bookstore(Model model){
         List<Book> books = repository.findAll();

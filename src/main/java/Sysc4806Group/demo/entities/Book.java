@@ -22,6 +22,10 @@ public class Book {
         this.inventory = inventory;
     }
 
+    public Book() {
+
+    }
+
     public String getIsbn() {
         return isbn;
     }
