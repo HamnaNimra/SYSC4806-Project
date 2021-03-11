@@ -14,7 +14,7 @@ public class User {
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<String> purchasedBooks;
+    private List<Book> purchasedBooks;
 
     public User(String uid, String firstName, String lastName, String email) {
         this.uid = uid;
@@ -48,7 +48,7 @@ public class User {
 
     public boolean purchaseBook(Book book) {
         if (book.getInventory() > 0) {
-            purchasedBooks.add(book.getIsbn());
+            purchasedBooks.add(book);
             book.sold();
             return true;
         } else {
