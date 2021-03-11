@@ -2,10 +2,11 @@ package Sysc4806Group.demo.controllers;
 
 import Sysc4806Group.demo.entities.Book;
 import Sysc4806Group.demo.repositories.BookRepository;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class BookController {
     private final BookRepository repository;
 
