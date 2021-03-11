@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import java.util.List;
 
+@Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,7 +14,7 @@ public class User {
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Book> purchasedBooks;
+    private List<String> purchasedBooks;
 
     public User(String uid, String firstName, String lastName, String email) {
         this.uid = uid;
@@ -47,7 +48,7 @@ public class User {
 
     public boolean purchaseBook(Book book) {
         if (book.getInventory() > 0) {
-            purchasedBooks.add(book);
+            purchasedBooks.add(book.getIsbn());
             book.sold();
             return true;
         } else {
