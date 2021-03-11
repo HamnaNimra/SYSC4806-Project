@@ -33,6 +33,11 @@ public class BookController {
         }
     }
 
+    @GetMapping("/bookstore")
+    public String bookstore(Model model){
+        
+    }
+
     @PostMapping("/updateBook")
     public String updateBook(@ModelAttribute Book book, Model model) {
         Book bookFromDB = repository.getOne(book.getIsbn());
