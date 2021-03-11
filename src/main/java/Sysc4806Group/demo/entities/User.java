@@ -1,7 +1,5 @@
 package Sysc4806Group.demo.entities;
 
-import Sysc4806Group.demo.entities.Book;
-
 import javax.persistence.*;
 
 import java.util.List;
@@ -29,8 +27,7 @@ public class User {
     }
 
     public User() {
-
-    };
+    }
 
     public String getUid() {
         return uid;
@@ -49,7 +46,7 @@ public class User {
     }
 
     public boolean purchaseBook(Book book) {
-        if(book.getInventory() > 0) {
+        if (book.getInventory() > 0) {
             purchasedBooks.add(book);
             book.sold();
             return true;

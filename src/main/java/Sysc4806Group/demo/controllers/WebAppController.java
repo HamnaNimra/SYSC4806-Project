@@ -1,6 +1,5 @@
 package Sysc4806Group.demo.controllers;
 
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebAppController {
 
     @RequestMapping("/")
-    public String index(){
+    public String index() {
         return "Welcome to Amazin Store!";
     }
 
