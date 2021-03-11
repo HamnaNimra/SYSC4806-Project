@@ -9,7 +9,10 @@
     <thead>
     <tr>
         <th> Title </th>
+        <th> ISBN </th>
         <th> Author </th>
+        <th> Publisher </th>
+        <th> Inventory </th>
     </tr>
     </thead>
     <tbody>
@@ -18,7 +21,10 @@
     </tr>
     <tr th:each="book : ${books}">
         <td><span th:text="${book.title}"> Title </span></td>
+        <td><span th:text="${book.isbn}"> ISBN </span></td>
         <td><span th:text="${book.author}"> Author </span></td>
+        <td><span th:text="${book.publisher}"> Publisher </span></td>
+        <td><span th:text="${book.inventory}"> Inventory </span></td>
     </tr>
     </tbody>
 </table>
