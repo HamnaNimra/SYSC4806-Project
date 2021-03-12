@@ -25,6 +25,7 @@
         <td><span th:text="${book.author}"> Author </span></td>
         <td><span th:text="${book.publisher}"> Publisher </span></td>
         <td><span th:text="${book.inventory}"> Inventory </span></td>
+        <td><span><a th:href="'/viewBook/'+${book.isbn}">View it</a></span></td>
     </tr>
     </tbody>
 </table>

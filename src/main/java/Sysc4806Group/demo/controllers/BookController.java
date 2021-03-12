@@ -22,6 +22,12 @@ public class BookController {
         model.addAttribute("template", book);
         return "edit-book";
     }
+    @GetMapping("/viewBook/{id}")
+    public String viewBook(@PathVariable String id, Model model) throws Exception{
+        Book book = repository.getOne(id);
+        model.addAttribute("template", book);
+        return "view-book";
+    }
 
     @PostMapping("/uploadBook")
     public String uploadBook(@ModelAttribute Book book, Model model) {
