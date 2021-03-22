@@ -77,7 +77,6 @@ class AmazinApplicationTests {
 						result -> mockMvc.perform(get("/search?title=rome")).andDo(print()).andExpect(
 								content().string(containsString("1234"))
 						)
-
 		);
 
 
