@@ -3,23 +3,27 @@ package Sysc4806Group.demo.entities;
 import javax.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class User {
+    public enum Role { OWNER, CUSTOMER,}
     @Id
     private String uid;
     private String firstName;
     private String lastName;
     private String email;
+    private Role role;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Book> purchasedBooks;
 
-    public User(String uid, String firstName, String lastName, String email) {
+    public User(String uid, String firstName, String lastName, String email, Role role) {
         this.uid = uid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.role = role;
     }
 
     public User(String uid) {
@@ -61,9 +65,11 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email; }
+
+    public Role getRole() { return role; }
+
+    public void setRole(Role role) { this.role = role; }
 
     public List<Book> getPurchasedBooks() {
         return purchasedBooks;
@@ -81,5 +87,18 @@ public class User {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(uid, user.uid) &&
+                getUid().equals(user.getUid()) &&
+                getFirstName().equals(user.getFirstName()) &&
+                getLastName().equals(user.getLastName()) &&
+                getEmail().equals(user.getEmail()) &&
+                getRole().equals(user.getRole());
     }
 }
