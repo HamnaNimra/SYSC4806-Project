@@ -70,7 +70,13 @@ class AmazinApplicationTests {
 						new BasicNameValuePair("publisher","Penguin books"),
 						new BasicNameValuePair("inventory","1"),
 						new BasicNameValuePair("pictureUrl", "blank")
-				))))).andDo(print()).andExpect(status().isOk());
+				))))).andExpect(status().isOk()).andDo(
+
+						result -> mockMvc.perform(get("/search?title=rome")).andDo(print()).andExpect(status().isOk())
+
+		);
+
+
 
 	}
 
