@@ -1,35 +1,49 @@
 package Sysc4806Group.demo.controllers;
 
 import Sysc4806Group.demo.entities.User;
+import Sysc4806Group.demo.repositories.BookRepository;
 import Sysc4806Group.demo.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
-    private final UserRepository repository;
+    @Autowired
+    private BookRepository books;
+    @Autowired
+    UserRepository repository;
 
-    UserController(UserRepository repository) {
-        this.repository = repository;
+    @RequestMapping("/signup")
+    public String index(Model model) {
+        return "signup";
     }
 
-    @GetMapping("/signup")
-    public String signupForm(Model model) {
-        model.addAttribute("template", new User());
-        return "sign-up";
-    }
+    @RequestMapping(value="/createUser", method=RequestMethod.GET)
+    public String createUser(@RequestParam("firstName") String firstName,
+                             @RequestParam("lastName") String lastName,
+                             @RequestParam("email") String email,
+                             @RequestParam("password") String password,
+                             @RequestParam("role") User.Role role, Model model){
 
-    @PostMapping("/createUser")
-    public String createUser(@ModelAttribute User user, Model model) {
-        user.setUid(UUID.randomUUID().toString());
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setRole(role);
         repository.save(user);
-        model.addAttribute("user", user);
-        return "profile";
+
+
+        model.addAttribute("userID", user.getUid());
+        model.addAttribute("books", books.findAll());
+
+        if(user.getRole() == User.Role.OWNER){
+            return "edit-book";
+        }else{return "book";}
+
+
+
     }
 }
