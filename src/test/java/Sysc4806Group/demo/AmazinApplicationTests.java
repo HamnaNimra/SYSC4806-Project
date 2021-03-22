@@ -35,9 +35,17 @@ class AmazinApplicationTests {
 	@Autowired
 	private MockMvc mockMvc;
 
+	@Autowired
+	private BookRepository repository;
+
 	@Test
 	public void blankSearch() throws Exception{
 		this.mockMvc.perform(get("/search?title=Summer")).andDo(print()).andExpect(status().isOk());
+	}
+
+	@Test
+	public void searchWithItems() throws Exception{
+
 	}
 
 
