@@ -23,6 +23,22 @@ public class BookController {
         return "edit-book";
     }
 
+
+    @GetMapping("/search")
+    public String searchBook(@RequestParam(value = "title", required = false) String title, Model model) throws Exception{
+
+        List<Book> books = repository.findByTitleContainingIgnoreCase(title);
+        model.addAttribute("books", books);
+        return "search-result";
+    }
+
+    @GetMapping("/viewBook/{id}")
+    public String viewBook(@PathVariable String id, Model model) throws Exception{
+        Book book = repository.getOne(id);
+        model.addAttribute("template", book);
+        return "view-book";
+    }
+
     @PostMapping("/uploadBook")
     public String uploadBook(@ModelAttribute Book book, Model model) {
         if (!repository.existsById(book.getIsbn())) {
