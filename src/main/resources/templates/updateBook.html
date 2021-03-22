@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Edit Book</title>
+    <title>Update Book</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<h1>Edit Book</h1>
+<h1>Update Book</h1>
 <fieldset>
     <form action="#" th:action="@{/updateBook}" th:object="${template}" method="post">
         <p>ISBN: <input type="text" th:field="*{isbn}" th:value="${template.getIsbn()}" /></p>
@@ -16,10 +16,6 @@
         <p>Inventory: <input type="number" th:field="*{inventory}" th:value="${template.getInventory()}" /></p>
         <p><input type="hidden" name="userID" th:value="${userID}">
         <p><button type="submit">Add </button> <input type="reset" value="Reset" /></p>
-    </form>
-
-    <form action="#" th:action="@{/}">
-        <input type="submit" value  = "Go Back"/>
     </form>
 
 </fieldset>

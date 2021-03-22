@@ -2,14 +2,18 @@ package Sysc4806Group.demo.entities;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class User {
-    public enum Role { OWNER, CUSTOMER,}
+    public enum Role { OWNER, CUSTOMER}
+
     @Id
-    private String uid;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int uid;
+
     private String firstName;
     private String lastName;
     private String email;
@@ -19,7 +23,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Book> purchasedBooks;
 
-    public User(String uid, String firstName, String lastName, String email, String password, Role role) {
+    public User(int uid, String firstName, String lastName, String email, String password, Role role) {
         this.uid = uid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,19 +32,15 @@ public class User {
         this.role = role;
     }
 
-    public User(String uid) {
-        this.uid = uid;
-    }
-
     public User() {
     }
 
-    public String getUid() {
+    public int getUid() {
         return uid;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public String getFirstName() {
@@ -51,16 +51,12 @@ public class User {
         this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getFullName() {
-        return this.firstName + " " + this.lastName;
     }
 
     public String getEmail() {
@@ -87,12 +83,12 @@ public class User {
         this.role = role;
     }
 
-    public List<Book> getPurchasedBooks() {
-        return purchasedBooks;
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
     }
 
-    public void setPurchasedBooks(List<Book> purchasedBooks) {
-        this.purchasedBooks = purchasedBooks;
+    public List<Book> getPurchasedBooks() {
+        return purchasedBooks;
     }
 
     public boolean purchaseBook(Book book) {
@@ -111,7 +107,7 @@ public class User {
         if (!(o instanceof User)) return false;
         User user = (User) o;
         return Objects.equals(uid, user.uid) &&
-                getUid().equals(user.getUid()) &&
+                (getUid() == user.getUid()) &&
                 getFirstName().equals(user.getFirstName()) &&
                 getLastName().equals(user.getLastName()) &&
                 getEmail().equals(user.getEmail()) &&

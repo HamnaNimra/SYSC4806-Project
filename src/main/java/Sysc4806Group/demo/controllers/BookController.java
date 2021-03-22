@@ -35,45 +35,53 @@ public class BookController {
 
     @GetMapping("/viewBook/{id}")
     public String viewBook(@PathVariable String id,@ModelAttribute("userID") String uid ,Model model) throws Exception{
-        Book book = repository.getOne(id);
+        Book book = repository.findById(id).get();
         User user =users.findById(uid).get();
-        model.addAttribute("template", book);
         model.addAttribute("userID", uid);
         model.addAttribute("role",user.getRole());
+        model.addAttribute("books", book);
         return "view-book";
+    }
+
+    @GetMapping("/viewAllBooks")
+    public String viewAllBooks(@ModelAttribute("userID") String uid ,Model model) throws Exception{
+        List<Book> book = repository.findAll();
+        User user =users.findById(uid).get();
+        model.addAttribute("userID", uid);
+        model.addAttribute("role",user.getRole());
+        model.addAttribute("books", book);
+        return "book";
     }
 
     @GetMapping("/uploadBook")
     public String uploadBookForm(@ModelAttribute("userID") String uid,Model model){
-        model.addAttribute("template", new Book());
         model.addAttribute("userID",uid);
-        return "upload-book";
+        model.addAttribute("template", new Book());
+        return "uploadBook";
     }
 
     @PostMapping("/uploadBook")
-    public String uploadBook(@ModelAttribute Book book, @ModelAttribute("userID") String uid, Model model) {
+    public String uploadBook(@ModelAttribute("createBook") Book book, @ModelAttribute("userID") String uid, Model model) {
         if (!repository.existsById(book.getIsbn())) {
             repository.save(book);
-            model.addAttribute("book", book);
-            model.addAttribute("userID",uid);
-            return "book";
-        } else {
-            // Prompt user that book already exists
-            repository.save(book);
-            return bookstore(uid, model);
         }
+            // else Prompt user that book already exists
+        return bookstore(uid, model);
     }
 
-    @GetMapping("/editBook/{id}")
-    public String editForm(@PathVariable String id, @ModelAttribute("userID") String uid, Model model) throws Exception {
-        Book book = repository.getOne(id);
-        model.addAttribute("template", book);
-        model.addAttribute("userID",uid);
-        return "edit-book";
+    @GetMapping("/updateBook")
+    public String updateBookForm(@ModelAttribute("userID") String uid, @ModelAttribute("updateBook") Book book, Model model){
+        if (repository.existsById(book.getIsbn())) {
+            repository.save(book);
+        }
+        else{
+            model.addAttribute("message", "Invalid request");
+        }
+        return "updateBook";
     }
 
     @PostMapping("/updateBook")
-    public String updateBook(@ModelAttribute Book book, Model model) {
+    public String updateBook(@ModelAttribute("userID") String uid, @ModelAttribute Book book, Model model) {
         Book bookFromDB = repository.getOne(book.getIsbn());
         bookFromDB.setAuthor(book.getAuthor());
         bookFromDB.setInventory(book.getInventory());
@@ -82,17 +90,17 @@ public class BookController {
         bookFromDB.setPictureUrl(book.getPictureUrl());
         bookFromDB.setIsbn(book.getIsbn());
         repository.save(bookFromDB);
-        return "view-book";
+        return bookstore(uid, model);
     }
-
 
     @GetMapping("/bookstore")
     public String bookstore(@ModelAttribute("userID") String uid,Model model){
         List<Book> books = repository.findAll();
-        User user = users.findById(uid).get();
+        User user =users.findById(uid).get();
+        model.addAttribute("userID", uid);
+        model.addAttribute("role",user.getRole().toString());
         model.addAttribute("books", books);
-        model.addAttribute("userID",uid);
-        model.addAttribute("role", user.getRole().toString());
-        return "bookstore";
+
+        return "book";
     }
 }

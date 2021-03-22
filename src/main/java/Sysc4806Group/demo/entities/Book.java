@@ -1,12 +1,14 @@
 package Sysc4806Group.demo.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Book {
     @Id
     private String isbn;
+
     private String title;
     private String author;
     private String publisher;
