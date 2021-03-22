@@ -27,11 +27,13 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.SerializationFea
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -72,7 +74,9 @@ class AmazinApplicationTests {
 						new BasicNameValuePair("pictureUrl", "blank")
 				))))).andExpect(status().isOk()).andDo(
 
-						result -> mockMvc.perform(get("/search?title=rome")).andDo(print()).andExpect(status().isOk())
+						result -> mockMvc.perform(get("/search?title=rome")).andDo(print()).andExpect(
+								content().string(containsString("1234"))
+						)
 
 		);
 
