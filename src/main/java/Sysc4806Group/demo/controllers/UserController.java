@@ -35,15 +35,10 @@ public class UserController {
         user.setRole(role);
         repository.save(user);
 
-
+        model.addAttribute("role",user.getRole().toString());
         model.addAttribute("userID", user.getUid());
         model.addAttribute("books", books.findAll());
 
-        if(user.getRole() == User.Role.OWNER){
-            return "bookstoreOwner";
-        }else{return "book";}
-
-
-
+        return "profile";
     }
 }
