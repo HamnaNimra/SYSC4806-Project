@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    <title>Search results</title>
 
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-
 </head>
 <body>
 
 <div class="container-fluid">
-
     <div class="row">
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="width:100%">
             <a class="navbar-brand" href="#">Navbar</a>
@@ -28,7 +26,6 @@
                     </li>
 
                 </ul>
-
                 <form class="form-inline my-2 my-lg-0" th:action="@{/search}" method="get">
                     <input class="form-control mr-sm-2" type="search" th:name="title" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -38,33 +35,38 @@
         </nav>
     </div>
 
-
-
-    <div class = "row p-4">
-        <div class ="col-sm-4">
-            <p th:text="'Hello ' + ${user.getFullName()}"/>
-        </div>
-
+    <div class="row">
+        <table>
+            <thead>
+            <tr>
+                <th> Title </th>
+                <th> ISBN </th>
+                <th> Author </th>
+                <th> Publisher </th>
+                <th> Inventory </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${books.empty}">
+                <td colspan="2"> No Books Available </td>
+            </tr>
+            <tr th:each="book : ${books}">
+                <td><span th:text="${book.title}"> Title </span></td>
+                <td><span th:text="${book.isbn}"> ISBN </span></td>
+                <td><span th:text="${book.author}"> Author </span></td>
+                <td><span th:text="${book.publisher}"> Publisher </span></td>
+                <td><span th:text="${book.inventory}"> Inventory </span></td>
+                <td><span><a th:href="'/viewBook/'+${book.isbn}">View it</a></span></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-
-
-    <div class="row p-4">
-        <div class="col-sm-6">
-
-        </div>
-        <div class="col-sm-6">
-
-        </div>
-    </div>
-
 </div>
-
-
-
 
 
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+
 </body>
 </html>

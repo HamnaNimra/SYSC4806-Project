@@ -22,6 +22,16 @@ public class BookController {
         model.addAttribute("template", book);
         return "edit-book";
     }
+
+
+    @GetMapping("/search")
+    public String searchBook(@RequestParam(value = "title", required = false) String title, Model model) throws Exception{
+
+        List<Book> books = repository.findByTitleContainingIgnoreCase(title);
+        model.addAttribute("books", books);
+        return "search-result";
+    }
+
     @GetMapping("/viewBook/{id}")
     public String viewBook(@PathVariable String id, Model model) throws Exception{
         Book book = repository.getOne(id);
