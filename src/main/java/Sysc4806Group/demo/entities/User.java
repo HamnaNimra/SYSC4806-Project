@@ -12,7 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int uid;
+    private Integer uid;
 
     private String firstName;
     private String lastName;
@@ -23,7 +23,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Book> purchasedBooks;
 
-    public User(int uid, String firstName, String lastName, String email, String password, Role role) {
+    public User(Integer uid, String firstName, String lastName, String email, String password, Role role) {
         this.uid = uid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,11 +35,11 @@ public class User {
     public User() {
     }
 
-    public int getUid() {
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Controller
@@ -23,7 +24,7 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public String searchBook(@RequestParam(value = "title", required = false) String title, @ModelAttribute("userID") String uid,
+    public String searchBook(@RequestParam(value = "title", required = false) String title, @ModelAttribute("userID") Integer uid,
                              Model model) throws Exception{
         List<Book> books = repository.findByTitleContainingIgnoreCase(title);
         User user =users.findById(uid).get();
@@ -34,7 +35,7 @@ public class BookController {
     }
 
     @GetMapping("/viewBook/{id}")
-    public String viewBook(@PathVariable String id,@ModelAttribute("userID") String uid ,Model model) throws Exception{
+    public String viewBook(@PathVariable String id,@ModelAttribute("userID") Integer uid ,Model model) throws Exception{
         Book book = repository.findById(id).get();
         User user =users.findById(uid).get();
         model.addAttribute("userID", uid);
@@ -44,7 +45,7 @@ public class BookController {
     }
 
     @GetMapping("/viewAllBooks")
-    public String viewAllBooks(@ModelAttribute("userID") String uid ,Model model) throws Exception{
+    public String viewAllBooks(@ModelAttribute("userID") Integer uid ,Model model) throws Exception{
         List<Book> book = repository.findAll();
         User user =users.findById(uid).get();
         model.addAttribute("userID", uid);
@@ -54,23 +55,23 @@ public class BookController {
     }
 
     @GetMapping("/uploadBook")
-    public String uploadBookForm(@ModelAttribute("userID") String uid,Model model){
+    public String uploadBookForm(@ModelAttribute("userID") Integer uid,Model model){
         model.addAttribute("userID",uid);
         model.addAttribute("template", new Book());
         return "uploadBook";
     }
 
     @PostMapping("/uploadBook")
-    public String uploadBook(@ModelAttribute("createBook") Book book, @ModelAttribute("userID") String uid, Model model) {
+    public String uploadBook(@ModelAttribute("createBook") Book book, @ModelAttribute("userID") Integer uid, Model model) {
         if (!repository.existsById(book.getIsbn())) {
             repository.save(book);
         }
             // else Prompt user that book already exists
-        return bookstore(uid, model);
+        return bookstore(model);
     }
 
     @GetMapping("/updateBook")
-    public String updateBookForm(@ModelAttribute("userID") String uid, @ModelAttribute("updateBook") Book book, Model model){
+    public String updateBookForm(@ModelAttribute("userID") Integer uid, @ModelAttribute("updateBook") Book book, Model model){
         if (repository.existsById(book.getIsbn())) {
             repository.save(book);
         }
@@ -81,7 +82,7 @@ public class BookController {
     }
 
     @PostMapping("/updateBook")
-    public String updateBook(@ModelAttribute("userID") String uid, @ModelAttribute Book book, Model model) {
+    public String updateBook(@ModelAttribute("userID") Integer uid, @ModelAttribute Book book, Model model) {
         Book bookFromDB = repository.getOne(book.getIsbn());
         bookFromDB.setAuthor(book.getAuthor());
         bookFromDB.setInventory(book.getInventory());
@@ -90,17 +91,13 @@ public class BookController {
         bookFromDB.setPictureUrl(book.getPictureUrl());
         bookFromDB.setIsbn(book.getIsbn());
         repository.save(bookFromDB);
-        return bookstore(uid, model);
+        return bookstore(model);
     }
 
     @GetMapping("/bookstore")
-    public String bookstore(@ModelAttribute("userID") String uid,Model model){
+    public String bookstore(Model model){
         List<Book> books = repository.findAll();
-        User user =users.findById(uid).get();
-        model.addAttribute("userID", uid);
-        model.addAttribute("role",user.getRole().toString());
         model.addAttribute("books", books);
-
-        return "book";
+        return "bookstore";
     }
 }

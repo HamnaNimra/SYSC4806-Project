@@ -16,9 +16,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${books.empty}">
+    <!--<tr th:if="${books.empty}">
         <td colspan="2"> No Books Available </td>
-    </tr>
+    </tr>-->
     <tr th:each="book : ${books}">
         <td><span th:text="${book.title}"> Title </span></td>
         <td><span th:text="${book.isbn}"> ISBN </span></td>

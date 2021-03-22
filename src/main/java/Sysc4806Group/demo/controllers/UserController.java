@@ -21,24 +21,19 @@ public class UserController {
 
     @GetMapping("/signup")
     public String signupForm(Model model) {
+        model.addAttribute("template", new User());
         return "sign-up";
     }
 
     @PostMapping("/createUser")
     public String createUser(@ModelAttribute User user, Model model) {
         repository.save(user);
-        model.addAttribute("user", user);
-
-        repository.save(user);
-
-        model.addAttribute("userID", user.getUid());
-        model.addAttribute("books", books.findAll());
-
-        return "bookstore";
+        return "main-page";
     }
 
-    @GetMapping("/sign-in")
-    public String signInForm(Model model) {
+    @RequestMapping(value = "/sign-in", method = RequestMethod.GET)
+    public String signInForm(@ModelAttribute User user, Model model) {
+        model.addAttribute("template", user);
         return "sign-in";
     }
 
@@ -51,15 +46,13 @@ public class UserController {
         //if email not in db or db empty
         //prompt user to sign up or enter correct email
         //take user to signIn-error page
-
         // else if compare associated password for email correct verify password
         // (user.existsById(user.getPassword()))
         //if password correct
         return "bookstore";
-
         //else take user to signIn-error page
         */
-        return "bookstore";
+        return "main-page";
     }
 
     @GetMapping("/manageBooks")
