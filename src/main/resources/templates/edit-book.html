@@ -7,18 +7,17 @@
 <body>
 <h1>Edit Book</h1>
 <td th:if="${role == 'OWNER'}">
-<form action="POST" th:action="@{/updateBook}" th:object="${template}">
-    <p>ISBN: <input type="text" th:field="*{isbn}" th:value="${template.getIsbn()}" /></p>
-    <p>Title: <input type="text" th:field="*{title}" th:value="${template.getTitle()}" /></p>
-    <p>Author: <input type="text" th:field="*{author}" th:value="${template.getAuthor()}" /></p>
-    <p>Publisher: <input type="text" th:field="*{publisher}" th:value="${template.getPublisher()}" /></p>
-    <p>Picture URL: <input type="text" th:field="*{pictureUrl}" th:value="${template.getPictureUrl()}" /></p>
-    <p>Inventory: <input type="number" th:field="*{inventory}" th:value="${template.getInventory()}" /></p>
-    <p><input type="hidden" name="uID" th:value="${uID}">
-    <p><button type="submit">Add </button> <input type="reset" value="Reset" /></p>
-</form>
-
-
-
+<fieldset>
+    <form action="#" th:action="@{/updateBook}" th:object="${template}" method="post">
+        <p>ISBN: <input type="text" th:field="*{isbn}" th:value="${template.getIsbn()}" /></p>
+        <p>Title: <input type="text" th:field="*{title}" th:value="${template.getTitle()}" /></p>
+        <p>Author: <input type="text" th:field="*{author}" th:value="${template.getAuthor()}" /></p>
+        <p>Publisher: <input type="text" th:field="*{publisher}" th:value="${template.getPublisher()}" /></p>
+        <p>Picture URL: <input type="text" th:field="*{pictureUrl}" th:value="${template.getPictureUrl()}" /></p>
+        <p>Inventory: <input type="number" th:field="*{inventory}" th:value="${template.getInventory()}" /></p>
+        <p><input type="hidden" name="userID" th:value="${userID}">
+        <p><button type="submit">Add </button> <input type="reset" value="Reset" /></p>
+    </form>
+</fieldset>
 </body>
 </html>

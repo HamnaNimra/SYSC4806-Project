@@ -40,7 +40,7 @@ public class UserController {
         model.addAttribute("books", books.findAll());
 
         if(user.getRole() == User.Role.OWNER){
-            return "edit-book";
+            return "bookstoreOwner";
         }else{return "book";}
 
 
