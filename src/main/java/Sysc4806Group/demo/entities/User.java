@@ -3,19 +3,16 @@ package Sysc4806Group.demo.entities;
 import javax.persistence.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class User {
-    public enum Role{
-        OWNER,
-        CUSTOMER,
-    }
+    public enum Role { OWNER, CUSTOMER}
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer uid;
+    private int uid;
 
     private String firstName;
     private String lastName;
@@ -26,7 +23,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Book> purchasedBooks;
 
-    public User(String firstName, String lastName, String email, String password, Role role) {
+    public User(int uid, String firstName, String lastName, String email, String password, Role role) {
+        this.uid = uid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -37,11 +35,11 @@ public class User {
     public User() {
     }
 
-    public Integer getUid() {
+    public int getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 
