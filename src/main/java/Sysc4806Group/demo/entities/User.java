@@ -13,16 +13,18 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private Role role;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Book> purchasedBooks;
 
-    public User(String uid, String firstName, String lastName, String email, Role role) {
+    public User(String uid, String firstName, String lastName, String email, String password, Role role) {
         this.uid = uid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
         this.role = role;
     }
 
@@ -65,11 +67,25 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public Role getRole() { return role; }
+    public String getPassword() {
+        return password;
+    }
 
-    public void setRole(Role role) { this.role = role; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public List<Book> getPurchasedBooks() {
         return purchasedBooks;
@@ -99,6 +115,11 @@ public class User {
                 getFirstName().equals(user.getFirstName()) &&
                 getLastName().equals(user.getLastName()) &&
                 getEmail().equals(user.getEmail()) &&
+                getPassword().equals(user.getPassword()) &&
                 getRole().equals(user.getRole());
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(uid, getFirstName(), getLastName(), getEmail(), getPassword(), getRole());
     }
 }
