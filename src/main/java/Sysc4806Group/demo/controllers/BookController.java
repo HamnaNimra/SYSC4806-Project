@@ -17,7 +17,7 @@ public class BookController {
     }
 
     @GetMapping("/editBook/{id}")
-    public String editForm(@PathVariable String id, Model model) throws Exception {
+    public String editForm(@PathVariable String id, @ModelAttribute("userID") Integer uid, Model model) throws Exception {
         Book book = repository.getOne(id);
         model.addAttribute("template", book);
         return "edit-book";
@@ -40,7 +40,7 @@ public class BookController {
     }
 
     @PostMapping("/uploadBook")
-    public String uploadBook(@ModelAttribute Book book, Model model) {
+    public String uploadBook(@ModelAttribute Book book, @ModelAttribute("userID") Integer uid, Model model) {
         if (!repository.existsById(book.getIsbn())) {
             repository.save(book);
             model.addAttribute("book", book);
