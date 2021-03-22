@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Bookstore Manager</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+<h1>Manage Your Books</h1>
+
+<td th:if="${role == 'OWNER'}">
+    <p><a href="/uploadBook">Upload a book</a></p>
+    <p><a href="/editBook">Edit a book</a></p>
+    <p><a href="/deleteBook">Delete a book</a></p>
+
+    <form action="#" th:action="@{/}">
+        <input type="submit" value  = "Go Back"/>
+    </form>
+
+</body>
+</html>

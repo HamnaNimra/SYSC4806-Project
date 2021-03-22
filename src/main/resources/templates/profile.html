@@ -5,12 +5,10 @@
     <title>Profile</title>
 </head>
 <body>
-<p th:text="'Hello ' + ${user.getFullName()}"></p>
+<p th:text="'Hello ' + ${user.getFullName()}"/>
 
 <a href="/bookstore">Visit Book Store</a>
-
-<td th:if="${role == 'OWNER'}">
-    <a href="/uploadBook">Upload a book</a>
+<a href="/uploadBook">Upload a book</a>
 
 </body>
 </html>

@@ -6,7 +6,6 @@
 </head>
 <body>
 <h1>Upload a Book</h1>
-<td th:if="${role == 'OWNER'}">
 <fieldset>
     <form action="#" th:action="@{/uploadBook}" th:object="${template}" method="post">
         <p>Title: <input type="text" th:field="*{title}"/></p>
@@ -19,6 +18,11 @@
         <p><button type="submit">Add </button> <input type="reset" value="Reset" /></p>
 
     </form>
+
+    <form action="#" th:action="@{/}">
+        <input type="submit" value  = "Go Back"/>
+    </form>
+
 </fieldset>
 
 </body>
