@@ -35,7 +35,7 @@ public class UserTest {
     }
     @org.junit.jupiter.api.Test
     void getPassword(){
-        assertEquals(user.getPassword(),"easypassword");
+        assertEquals(user.getPassword(),"easypassword?");
     }
     @org.junit.jupiter.api.Test
     void setPassword(){
