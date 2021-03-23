@@ -8,5 +8,8 @@ import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "User", path = "users")
 public interface UserRepository extends JpaRepository<User, Integer> {
-    List<User> findByEmail(String email);
+    User findByEmail(String email);
+    List<User> findByFirstName(String firstName);
+    List<User> findByLastName(String LastName);
+    User findByRole(User.Role role);
 }

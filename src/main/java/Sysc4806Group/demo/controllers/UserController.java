@@ -65,10 +65,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public String profile(@ModelAttribute User user, Model model){
-        /*if(user.getRole() == null){
-            user.setRole(User.Role.CUSTOMER); //testing
-        }*/
-        if (user.getRole().toString().equals("OWNER")) {
+        if (user.getRole().equals(User.Role.OWNER)) {
             return "ownerProfile";
         } else {
             return "customerProfile";
