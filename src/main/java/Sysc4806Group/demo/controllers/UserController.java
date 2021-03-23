@@ -1,6 +1,5 @@
 package Sysc4806Group.demo.controllers;
 
-import Sysc4806Group.demo.entities.Book;
 import Sysc4806Group.demo.entities.User;
 import Sysc4806Group.demo.repositories.BookRepository;
 import Sysc4806Group.demo.repositories.UserRepository;
@@ -8,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -57,11 +53,7 @@ public class UserController {
 
     @GetMapping("/manageBooks")
     public String manageBooks(@ModelAttribute User user, Model model){
-        if (user.getRole().equals(User.Role.OWNER)) {
             return "bookstoreOwner";
-        } else {
-            return "bookstore";
-        }
     }
 
     @GetMapping("/logout")
@@ -73,7 +65,8 @@ public class UserController {
 
     @GetMapping("/profile")
     public String profile(@ModelAttribute User user, Model model){
-        if (user.getRole().equals(User.Role.OWNER)) {
+        user.setRole(User.Role.OWNER); //testing
+        if (user.getRole().toString().equals("OWNER")) {
             return "ownerProfile";
         } else {
             return "customerProfile";

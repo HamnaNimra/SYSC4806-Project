@@ -16,53 +16,33 @@ import java.util.List;
 public class BookController {
     @Autowired
     private BookRepository repository;
-    @Autowired
-    private UserRepository users;
 
     BookController(BookRepository repository) {
         this.repository = repository;
     }
 
     @GetMapping("/search")
-    public String searchBook(@RequestParam(value = "title", required = false) String title, @ModelAttribute("userID") Integer uid,
-                             Model model) throws Exception{
+    public String searchBook(@RequestParam(value = "title", required = false) String title,Model model) throws Exception{
         List<Book> books = repository.findByTitleContainingIgnoreCase(title);
-        User user =users.findById(uid).get();
-        model.addAttribute("userID", uid);
-        model.addAttribute("role",user.getRole());
         model.addAttribute("books", books);
         return "search-result";
     }
 
     @GetMapping("/viewBook/{id}")
-    public String viewBook(@PathVariable String id,@ModelAttribute("userID") Integer uid ,Model model) throws Exception{
+    public String viewBook(@PathVariable String id,Model model) throws Exception{
         Book book = repository.findById(id).get();
-        User user =users.findById(uid).get();
-        model.addAttribute("userID", uid);
-        model.addAttribute("role",user.getRole());
         model.addAttribute("books", book);
         return "view-book";
     }
 
-    @GetMapping("/viewAllBooks")
-    public String viewAllBooks(@ModelAttribute("userID") Integer uid ,Model model) throws Exception{
-        List<Book> book = repository.findAll();
-        User user =users.findById(uid).get();
-        model.addAttribute("userID", uid);
-        model.addAttribute("role",user.getRole());
-        model.addAttribute("books", book);
-        return "book";
-    }
-
     @GetMapping("/uploadBook")
-    public String uploadBookForm(@ModelAttribute("userID") Integer uid,Model model){
-        model.addAttribute("userID",uid);
+    public String uploadBookForm(Model model){
         model.addAttribute("template", new Book());
         return "uploadBook";
     }
 
     @PostMapping("/uploadBook")
-    public String uploadBook(@ModelAttribute("createBook") Book book, @ModelAttribute("userID") Integer uid, Model model) {
+    public String uploadBook(@ModelAttribute("createBook") Book book, Model model) {
         if (!repository.existsById(book.getIsbn())) {
             repository.save(book);
         }
@@ -71,18 +51,13 @@ public class BookController {
     }
 
     @GetMapping("/updateBook")
-    public String updateBookForm(@ModelAttribute("userID") Integer uid, @ModelAttribute("updateBook") Book book, Model model){
-        if (repository.existsById(book.getIsbn())) {
-            repository.save(book);
-        }
-        else{
-            model.addAttribute("message", "Invalid request");
-        }
+    public String updateBookForm(@ModelAttribute("updateBook") Book book, Model model){
+        model.addAttribute("template", book);
         return "updateBook";
     }
 
     @PostMapping("/updateBook")
-    public String updateBook(@ModelAttribute("userID") Integer uid, @ModelAttribute Book book, Model model) {
+    public String updateBook(@ModelAttribute Book book, Model model) {
         Book bookFromDB = repository.getOne(book.getIsbn());
         bookFromDB.setAuthor(book.getAuthor());
         bookFromDB.setInventory(book.getInventory());

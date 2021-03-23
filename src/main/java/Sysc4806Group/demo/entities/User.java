@@ -23,8 +23,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Book> purchasedBooks;
 
-    public User(Integer uid, String firstName, String lastName, String email, String password, Role role) {
-        this.uid = uid;
+    public User(String firstName, String lastName, String email, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
