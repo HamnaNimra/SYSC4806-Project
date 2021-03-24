@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<p th:text="'Hello ' + ${user.getFullName()}"/>
+
+<a href="/bookstore">Visit Book Store</a>
+<a href="/uploadBook">Upload a book</a>
+
+</body>
+</html>
