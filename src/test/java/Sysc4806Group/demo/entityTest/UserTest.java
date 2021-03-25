@@ -8,7 +8,7 @@ public class UserTest {
     User user;
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
-        this.user= new User("Hamna", "Nimra", "hamnanimra@github.com", "easypassword?" ,User.Role.CUSTOMER);
+        this.user= new User("Hamna", "Nimra", "hamnanimra@github.com", "easypassword?" , User.Role.CUSTOMER);
     }
 
     @org.junit.jupiter.api.AfterEach
