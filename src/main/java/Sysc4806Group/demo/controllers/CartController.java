@@ -4,6 +4,7 @@ import Sysc4806Group.demo.entities.Book;
 import Sysc4806Group.demo.entities.Cart;
 import Sysc4806Group.demo.repositories.BookRepository;
 import Sysc4806Group.demo.repositories.CartRepository;
+import Sysc4806Group.demo.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +15,12 @@ import java.util.List;
 public class CartController {
     private final CartRepository repository;
     private final BookRepository bookRepo;
+    private final UserRepository userRepository;
 
-    CartController(CartRepository repository, BookRepository bookRepo) {
+    CartController(CartRepository repository, BookRepository bookRepo, UserRepository userRepository) {
         this.repository = repository;
         this.bookRepo = bookRepo;
-    }
-
-    @GetMapping("/addItem/{id}")
-    public String addItemForm(@PathVariable String id, Model model) throws Exception {
-        Book book = bookRepo.getOne(id);
-        model.addAttribute("template", book);
-        return "add-item";
+        this.userRepository = userRepository;
     }
 
 
