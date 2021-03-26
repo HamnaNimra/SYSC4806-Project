@@ -186,6 +186,8 @@ public class UserController {
 
         return "profile";
     }
+    
+
 
 
     private String getCurrentUserUid() {
