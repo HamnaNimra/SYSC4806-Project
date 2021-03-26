@@ -11,6 +11,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import Sysc4806Group.demo.entities.Book;
+import Sysc4806Group.demo.entities.User;
+import Sysc4806Group.demo.entities.Cart;
+import Sysc4806Group.demo.repositories.BookRepository;
+import Sysc4806Group.demo.repositories.UserRepository;
+import Sysc4806Group.demo.repositories.CartRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +38,9 @@ public class UserController {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    CartRepository cartRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -94,7 +103,34 @@ public class UserController {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN")));
 
         model.addAttribute("success", true);
+        Cart temp = user.getCart();
+        temp.setID(user.getUid());
+        user.setUserCart(temp);
+        repository.save(user);
         model.addAttribute("user", user);
+
         return "profile";
+    }
+    //I want to set the cart controller up, such that when I add an item to the cart
+    //It's added and then we go to the user's cart to show that the item has been added
+    @GetMapping("/addItem/{id}/{uid}")
+    public String addItemToCart(@PathVariable String id, @PathVariable String uid, Model model){
+        Book book = bookRepository.getOne(id);
+        User currentUser = repository.getOne(uid);
+        Cart userCart = currentUser.getCart();
+        userCart.addBook(book);
+        currentUser.setUserCart(userCart);
+        book.sold();
+        System.out.println(book.getAuthor());
+        System.out.println("cart id is" + userCart.getID());
+        System.out.println("cart length is now" + userCart.getLength());
+        return "cart-home";
+    }
+
+    @GetMapping("/cart-home/{uid}")
+    public String testUserCart(@PathVariable String uid, Model model){
+        User user = repository.getOne(uid);
+        model.addAttribute("template", user);
+        return "cart-home";
     }
 }

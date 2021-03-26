@@ -39,6 +39,7 @@ Sort By:
         <td><span th:text="${book.publisher}"> Publisher </span></td>
         <td><span th:text="${book.inventory}"> Inventory </span></td>
         <td><span><a th:href="'/viewBook/'+${book.isbn}">View it</a></span></td>
+        <td><span><a th:href="'/addItem/'+${book.isbn}">Add To Cart</a></span></td>
     </tr>
     </tbody>
 </table>
