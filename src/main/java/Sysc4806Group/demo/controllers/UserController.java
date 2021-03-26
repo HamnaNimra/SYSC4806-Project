@@ -111,6 +111,19 @@ public class UserController {
 
         return "profile";
     }
+    @PostMapping("/addCart/")
+    public String addCart(@ModelAttribute User user, @ModelAttribute Book book, Model model){
+        Cart userCart = user.getCart();
+        userCart.addBook(book);
+        book.sold();
+        System.out.println("cart size is" + userCart.getLength());
+        user.setUserCart(userCart);
+        repository.save(user);
+        bookRepository.save(book);
+        return "profile";
+    }
+
+    /*
     //I want to set the cart controller up, such that when I add an item to the cart
     //It's added and then we go to the user's cart to show that the item has been added
     @GetMapping("/addItem/{id}/{uid}")
@@ -126,6 +139,8 @@ public class UserController {
         System.out.println("cart length is now" + userCart.getLength());
         return "cart-home";
     }
+    */
+
 
     @GetMapping("/cart-home/{uid}")
     public String testUserCart(@PathVariable String uid, Model model){
