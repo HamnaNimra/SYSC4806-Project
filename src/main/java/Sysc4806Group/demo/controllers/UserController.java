@@ -3,10 +3,15 @@ package Sysc4806Group.demo.controllers;
 import Sysc4806Group.demo.entities.User;
 import Sysc4806Group.demo.repositories.BookRepository;
 import Sysc4806Group.demo.repositories.UserRepository;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+
+import static Sysc4806Group.demo.entities.User.Role.OWNER;
 
 @Controller
 public class UserController {
@@ -22,8 +27,20 @@ public class UserController {
     }
 
     @PostMapping("/createUser")
-    public String createUser(@ModelAttribute User user, Model model) {
+    public String createUser(@ModelAttribute User user, Model model,
+                             @RequestParam("firstName") String firstName,
+                             @RequestParam("lastName") String lastName,
+                             @RequestParam("email") String email,
+                             @RequestParam("password") String password,
+                             @RequestParam("role") User.Role role){
+
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setRole(role);
         repository.save(user);
+
         return "main-page";
     }
 
@@ -53,7 +70,7 @@ public class UserController {
 
     @GetMapping("/manageBooks")
     public String manageBooks(@ModelAttribute User user, Model model){
-            return "bookstoreOwner";
+        return "bookstoreOwner";
     }
 
     @GetMapping("/logout")
@@ -64,8 +81,12 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String profile(@ModelAttribute User user, Model model){
-        if (user.getRole().equals(User.Role.OWNER)) {
+    public String profile(@ModelAttribute User user,Model model){
+        //user = repository.getOne(user.getUid());
+        if(user.getRole() == null){
+            user.setRole(User.Role.CUSTOMER); //testing
+        }
+        if (user.getRole().equals(OWNER)) {
             return "ownerProfile";
         } else {
             return "customerProfile";

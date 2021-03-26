@@ -6,7 +6,6 @@ import javax.persistence.Id;
 
 @Entity
 public class Book {
-
     @Id
     private String isbn;
 
