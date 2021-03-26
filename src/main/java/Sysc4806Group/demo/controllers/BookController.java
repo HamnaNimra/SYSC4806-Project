@@ -23,9 +23,8 @@ public class BookController {
         return "edit-book";
     }
 
-
     @GetMapping("/search")
-    public String searchBook(@RequestParam(value = "title", required = false) String title, Model model) throws Exception{
+    public String searchBook(@RequestParam(value = "title", required = false) String title, Model model) throws Exception {
 
         List<Book> books = repository.findByTitleContainingIgnoreCase(title);
         model.addAttribute("books", books);
@@ -33,7 +32,7 @@ public class BookController {
     }
 
     @GetMapping("/viewBook/{id}")
-    public String viewBook(@PathVariable String id, Model model) throws Exception{
+    public String viewBook(@PathVariable String id, Model model) throws Exception {
         Book book = repository.getOne(id);
         model.addAttribute("template", book);
         return "view-book";
@@ -52,13 +51,13 @@ public class BookController {
     }
 
     @GetMapping("/uploadBook")
-    public String uploadBookForm(Model model){
+    public String uploadBookForm(Model model) {
         model.addAttribute("template", new Book());
         return "upload-book";
     }
 
     @GetMapping("/bookstore")
-    public String bookstore(Model model){
+    public String bookstore(Model model) {
         List<Book> books = repository.findAll();
         model.addAttribute("books", books);
         return "bookstore";
