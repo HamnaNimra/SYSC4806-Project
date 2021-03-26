@@ -42,7 +42,8 @@ public class BookController {
     public String uploadBook(@ModelAttribute Book book, Model model) {
         if (!repository.existsById(book.getIsbn())) {
             repository.save(book);
-            model.addAttribute("book", book);
+            List<Book> books = repository.findAll();
+            model.addAttribute("books", books);
             return "bookstore";
         } else {
             // Prompt user that book already exists
