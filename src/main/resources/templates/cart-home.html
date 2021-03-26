@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+</head>
+<body>
+<h1>Your Cart</h1>
+<p th:text="'These are your items,' + ${template.getFullName()}" />
+<table>
+    <thead>
+    <tr>
+        <th> Title </th>
+        <th> ISBN </th>
+        <th> Author </th>
+        <th> Publisher </th>
+        <th> Inventory </th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:if ="${template.getCart().getLength() == 0}">
+            <td colspan="2"> Your Cart is empty</td>
+        </tr>
+        <tr th:if ="${template.getCart().getLength() > 0}">
+            <td colspan="2"><p th:text="'Items in the cart are:'+${template.getCart().getLength()}"/></td>
+        </tr>
+    </tbody>
+
+
+
+</table>
+
+<!--
+<table>
+    <thead>
+    <tr>
+        <th> Title </th>
+        <th> ISBN </th>
+        <th> Author </th>
+        <th> Publisher </th>
+        <th> Inventory </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${books.empty}">
+        <td colspan="2">Cart is empty </td>
+    </tr>
+    <tr th:each="book : ${books}">
+        <td><span th:text="${book.title}"> Title </span></td>
+        <td><span th:text="${book.isbn}"> ISBN </span></td>
+        <td><span th:text="${book.author}"> Author </span></td>
+        <td><span th:text="${book.publisher}"> Publisher </span></td>
+        <td><span th:text="${book.inventory}"> Inventory </span></td>
+        <td><span><a th:href="'/viewBook/'+${book.isbn}">View it</a></span></td>
+    </tr>
+    </tbody>
+</table>
+-->
+</body>
+</html>
