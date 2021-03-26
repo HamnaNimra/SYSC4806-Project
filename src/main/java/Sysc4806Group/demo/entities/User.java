@@ -12,6 +12,9 @@ public class User {
     private String lastName;
     private String email;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Cart userCart;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<Book> purchasedBooks;
 
@@ -20,13 +23,16 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.userCart = new Cart(uid);
     }
 
     public User(String uid) {
         this.uid = uid;
+        this.userCart = new Cart(uid);
     }
 
     public User() {
+        this.userCart = new Cart();
     }
 
     public String getUid() {
@@ -72,6 +78,12 @@ public class User {
     public void setPurchasedBooks(List<Book> purchasedBooks) {
         this.purchasedBooks = purchasedBooks;
     }
+
+    public Cart getCart(){return userCart;}
+    public void setUserCart(Cart aCart){
+        this.userCart = aCart;
+    }
+
 
     public boolean purchaseBook(Book book) {
         if (book.getInventory() > 0) {
