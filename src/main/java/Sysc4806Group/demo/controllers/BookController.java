@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -56,8 +57,26 @@ public class BookController {
     }
 
     @GetMapping("/bookstore")
-    public String bookstore(Model model) {
+    public String bookstore(@RequestParam(value = "sort", required = false) String sortBy, Model model) {
         List<Book> books = repository.findAll();
+        // Sort through books based on given parameter
+        if (sortBy != null) {
+            switch (sortBy) {
+                case "title":
+                    books.sort(Comparator.comparing(Book::getTitle));
+                    break;
+                case "author":
+                    books.sort(Comparator.comparing(Book::getAuthor));
+                    break;
+                case "publisher":
+                    books.sort(Comparator.comparing(Book::getPublisher));
+                    break;
+            }
+        } else {
+            // If no parameter -> sort by title (when you first load up bookstore for example))
+            books.sort(Comparator.comparing(Book::getTitle));
+        }
+
         model.addAttribute("books", books);
         return "bookstore";
     }
