@@ -17,22 +17,21 @@ public class BookController {
     }
 
     @GetMapping("/editBook/{id}")
-    public String editForm(@PathVariable String id, Model model) throws Exception {
+    public String editForm(@PathVariable String id, Model model) {
         Book book = repository.getOne(id);
         model.addAttribute("template", book);
         return "edit-book";
     }
 
     @GetMapping("/search")
-    public String searchBook(@RequestParam(value = "title", required = false) String title, Model model) throws Exception {
-
+    public String searchBook(@RequestParam(value = "title", required = false) String title, Model model) {
         List<Book> books = repository.findByTitleContainingIgnoreCase(title);
         model.addAttribute("books", books);
         return "search-result";
     }
 
     @GetMapping("/viewBook/{id}")
-    public String viewBook(@PathVariable String id, Model model) throws Exception {
+    public String viewBook(@PathVariable String id, Model model) {
         Book book = repository.getOne(id);
         model.addAttribute("template", book);
         return "view-book";
