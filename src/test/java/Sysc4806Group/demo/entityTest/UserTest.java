@@ -34,15 +34,6 @@ public class UserTest {
         assertEquals(user.getLastName(),"Esfandiari");
     }
     @org.junit.jupiter.api.Test
-    void getEmail(){
-        assertEquals(user.getEmail(),"hamnanimra@github.com");
-    }
-    @org.junit.jupiter.api.Test
-    void setEmail(){
-        user.setEmail("hamna@carleton.ca");
-        assertEquals(user.getEmail(),"hamna@carleton.ca");
-    }
-    @org.junit.jupiter.api.Test
     void getPassword(){
         assertEquals(user.getPassword(),"easypassword?");
     }
