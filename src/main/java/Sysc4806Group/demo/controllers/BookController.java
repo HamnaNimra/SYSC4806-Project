@@ -43,7 +43,7 @@ public class BookController {
         if (!repository.existsById(book.getIsbn())) {
             repository.save(book);
             model.addAttribute("book", book);
-            return "book";
+            return "bookstore";
         } else {
             // Prompt user that book already exists
             return "upload-book";
