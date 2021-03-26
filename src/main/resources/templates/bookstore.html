@@ -5,19 +5,25 @@
     <title>Book Store</title>
 </head>
 <body>
+Sort By:
+<select name="sort" id="sort">
+    <option value="title">Title</option>
+    <option value="author">Author</option>
+    <option value="publisher">Publisher</option>
+</select>
 <table>
     <thead>
     <tr>
-        <th> Title </th>
-        <th> ISBN </th>
-        <th> Author </th>
-        <th> Publisher </th>
-        <th> Inventory </th>
+        <th> Title</th>
+        <th> ISBN</th>
+        <th> Author</th>
+        <th> Publisher</th>
+        <th> Inventory</th>
     </tr>
     </thead>
     <tbody>
     <tr th:if="${books.empty}">
-        <td colspan="2"> No Books Available </td>
+        <td colspan="2"> No Books Available</td>
     </tr>
     <tr th:each="book : ${books}">
         <td><span th:text="${book.title}"> Title </span></td>
@@ -29,6 +35,5 @@
     </tr>
     </tbody>
 </table>
-
 </body>
 </html>
