@@ -3,13 +3,16 @@ package Sysc4806Group.demo.entities;
 import javax.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class User {
-    public enum Role { OWNER, CUSTOMER}
-
+    public enum Role{
+        OWNER,
+        CUSTOMER,
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int uid;
