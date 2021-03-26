@@ -51,9 +51,10 @@ public class UserController {
 
     @PostMapping("/signin")
     public Object signin(@ModelAttribute User user, Model model) {
+        //AUTH FLOW
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-
+        //GET CURRENT USER OF SESSION
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
