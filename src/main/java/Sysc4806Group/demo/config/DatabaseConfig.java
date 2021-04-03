@@ -8,12 +8,11 @@ import javax.sql.DataSource;
 @Configuration
 public class DatabaseConfig {
 
-    //@Value("${spring.datasource.url}")
+    @Value("${spring.datasource.url}")
     private String dbUrl;
 
     @Bean
     public DataSource dataSource() {
-        dbUrl = System.getenv("JDBC_DATABASE_URL");
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(dbUrl);
         return new HikariDataSource(config);
