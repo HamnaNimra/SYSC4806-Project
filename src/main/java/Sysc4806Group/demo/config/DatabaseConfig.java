@@ -1,3 +1,4 @@
+/*
 package Sysc4806Group.demo.config;
 
 import com.zaxxer.hikari.*;
@@ -18,3 +19,4 @@ public class DatabaseConfig {
         return new HikariDataSource(config);
     }
 }
+*/
