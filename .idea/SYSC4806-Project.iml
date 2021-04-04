@@ -104,6 +104,7 @@
     <orderEntry type="library" name="Maven: org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-jdbc:2.4.3" level="project" />
+    <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:3.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.3.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jdbc:9.0.43" level="project" />
