@@ -2,8 +2,10 @@ package Sysc4806Group.demo.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "books")
 public class Book {
 
     @Id
