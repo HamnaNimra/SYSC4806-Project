@@ -32,14 +32,14 @@ public class User {
     @Size(max = 50)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-    
+
     @OneToOne(cascade = CascadeType.ALL)
-    private Cart userCart;
+    private Cart cart;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable( name = "user_books",
@@ -53,16 +53,13 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.userCart = new Cart(uid);
     }
 
     public User(String uid) {
         this.uid = uid;
-        this.userCart = new Cart(uid);
     }
 
     public User() {
-        this.userCart = new Cart();
     }
 
     public String getUid() {
@@ -125,9 +122,12 @@ public class User {
         this.purchasedBooks = purchasedBooks;
     }
 
-    public Cart getCart(){return userCart;}
-    public void setUserCart(Cart aCart){
-        this.userCart = aCart;
+    public Cart getCart(){
+        return cart;
+    }
+
+    public void setCart(Cart cart){
+        this.cart = cart;
     }
 
 

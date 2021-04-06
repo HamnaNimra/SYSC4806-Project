@@ -2,52 +2,67 @@ package Sysc4806Group.demo.entities;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name="carts",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "id")
+        })
 public class Cart {
     @Id
-    private String id; //Cart needs to have an id, so that it can be belong to a specific user
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-    private ArrayList<Book> cartItems; //Needs to have a collection of items in the cart
-    private String testing;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable( name = "cart_items",
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private List<Book> items; //Needs to have a collection of items in the cart
 
     @OneToOne(cascade = CascadeType.ALL)
-    private User user; //The cart is associated to a specific user
+//    @JoinColumn(name = "user_id")
+    private User user;
 
-
-    public Cart(String id) {
-        this.cartItems = new ArrayList<Book>();
+    public Cart(Long id){
         this.id = id;
+        this.items = new ArrayList<Book>();
     }
-    public Cart(){
-        this.cartItems = new ArrayList<>();
+
+    public Cart() {
+        this.items = new ArrayList<Book>();
     }
 
     //Add a book to the cart feature
-    public void addBook(Book book){
-        if(book != null) {
-            cartItems.add(book);
-            System.out.println("Added book successfully");
+    public boolean addBook(Book book){
+        if(book != null && book.getInventory() > 0) {
+            items.add(book);
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public Book findBook(int index){
-        return cartItems.get(index);
+    public List<Book> getItems() {
+        return items;
     }
-    public String getID(){
+
+    public Book findBook(int index){
+        return items.get(index);
+    }
+    public long getID(){
         return id;
     }
-    public void setID(String id){
-        this.id=id;
+    public void setID(Long id){
+        this.id = id;
     }
-    public void setTesting(String text){
-        this.testing = text;
+
+    public boolean empty() {
+        return (getLength() == 0);
     }
-    public String getTesting(){
-        return testing;
-    }
+
     public int getLength(){
-        return cartItems.size();
+        return items.size();
     }
 
 }

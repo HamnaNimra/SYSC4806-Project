@@ -50,11 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
 //                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 //                  .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.formLogin().loginPage("/signin").usernameParameter("email").permitAll();
         http.authorizeRequests()
-                .antMatchers("/", "/css/*", "/js/*", "/signin", "/signup", "/logout").permitAll()
-//                .antMatchers("/editBook/**", "/updateBook/**", "/uploadBook").hasAnyRole("ADMIN")
-//                .anyRequest().authenticated()
+                .antMatchers("/", "/resources/**", "/signin", "/signup", "/logout", "/*.js", "/*.css").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/signin").usernameParameter("email").permitAll()
+//                .and().antMatchers("/editBook/**", "/updateBook/**", "/uploadBook").hasAnyRole("ROLE_ADMIN", "ROLE_USER")
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true);
 //                .defaultSuccessUrl("/profile").and().logout().logoutSuccessUrl("/logout").permitAll();
 //        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

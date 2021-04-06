@@ -11,5 +11,7 @@
     <p th:text="'Publisher: ' + ${template.getPublisher()}" />
     <p th:text="'Inventory: ' + ${template.getInventory()}" />
     <img th:src="${template.getPictureUrl()}" />
+    <span th:unless="${template.isOutOfStock()}"><a th:href="'/addBook/'+${template.getIsbn()}">Add To Cart</a></span>
+
 </body>
 </html>
