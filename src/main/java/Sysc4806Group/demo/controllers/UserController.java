@@ -20,16 +20,20 @@ import Sysc4806Group.demo.repositories.CartRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 public class UserController {
+    private final AtomicLong counter = new AtomicLong();
+
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -41,6 +45,9 @@ public class UserController {
 
     @Autowired
     CartRepository cartRepository;
+
+    @Autowired
+    BookRepository bookRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -59,7 +66,7 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public Object signin(@ModelAttribute User user, Model model) {
+    public String signin(@ModelAttribute User user, Model model) {
         //AUTH FLOW
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
@@ -67,17 +74,27 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+        Cart cart;
+
+        if(user.getCart() == null) {
+            cart = new Cart(counter.incrementAndGet());
+            user.setCart(cart);
+        } else {
+            cart = user.getCart();
+        }
+
         model.addAttribute("user", userDetails);
+        model.addAttribute("cart", cart);
 
         return "profile";
     }
 
     @PostMapping("/signup")
-    public String createUser(@ModelAttribute User user, @RequestParam(required = false) boolean hasAdminRole, Model model) {
+    public RedirectView createUser(@ModelAttribute User user, @RequestParam(required = false) boolean hasAdminRole, Model model) {
 
         if (userRepository.existsByEmail(user.getEmail())) {
             model.addAttribute("error", "Email is already in use");
-            return "error";
+//            return "error";
         };
 
         user.setUid(UUID.randomUUID().toString());
@@ -97,55 +114,40 @@ public class UserController {
 
         user.setRoles(roles);
 
-        userRepository.save(user);
-
         System.out.println("has admin role " + SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN")));
 
         model.addAttribute("success", true);
-        Cart temp = user.getCart();
-        temp.setID(user.getUid());
-        user.setUserCart(temp);
-        repository.save(user);
+        Cart cart = new Cart();
+        cart.setID(counter.incrementAndGet());
+
+        user.setCart(cart);
+
+        cartRepository.save(cart);
+        userRepository.save(user);
+
         model.addAttribute("user", user);
+        model.addAttribute("cart", cart);
 
-        return "profile";
-    }
-    @PostMapping("/addCart/")
-    public String addCart(@ModelAttribute User user, @ModelAttribute Book book, Model model){
-        Cart userCart = user.getCart();
-        userCart.addBook(book);
-        book.sold();
-        System.out.println("cart size is" + userCart.getLength());
-        user.setUserCart(userCart);
-        repository.save(user);
-        bookRepository.save(book);
-        return "profile";
+        return new RedirectView("signin");
     }
 
-    /*
-    //I want to set the cart controller up, such that when I add an item to the cart
-    //It's added and then we go to the user's cart to show that the item has been added
-    @GetMapping("/addItem/{id}/{uid}")
-    public String addItemToCart(@PathVariable String id, @PathVariable String uid, Model model){
-        Book book = bookRepository.getOne(id);
-        User currentUser = repository.getOne(uid);
-        Cart userCart = currentUser.getCart();
-        userCart.addBook(book);
-        currentUser.setUserCart(userCart);
-        book.sold();
-        System.out.println(book.getAuthor());
-        System.out.println("cart id is" + userCart.getID());
-        System.out.println("cart length is now" + userCart.getLength());
-        return "cart-home";
-    }
-    */
 
 
-    @GetMapping("/cart-home/{uid}")
-    public String testUserCart(@PathVariable String uid, Model model){
-        User user = repository.getOne(uid);
-        model.addAttribute("template", user);
-        return "cart-home";
+    @GetMapping("/checkout")
+    public String checkout(Model model){
+        User user = userRepository.getOne(getCurrentUserUid()); //.get();//.findByEmail(getCurrentUsername());
+
+        model.addAttribute("cart", user.getCart());
+        return "checkout";
     }
+
+    private String getCurrentUserUid() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+
+        return user.getUid();
+
+    }
+
 }
