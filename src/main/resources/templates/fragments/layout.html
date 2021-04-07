@@ -12,14 +12,22 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+<<<<<<< HEAD
             <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+=======
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+>>>>>>> Can only view upload if you're an admin
                 <ul class="navbar-nav mr-auto" th:with="view=${#httpServletRequest.getServletPath()}">
                     <li class="nav-item" style="padding-right:50px;padding-left:50px"
                         th:classappend="${#strings.startsWith(view,'/bookstore')? 'active' : ''}">
                         <a href="/bookstore">Visit Book Store</a>
                     </li>
                     <li class="nav-item" th:classappend="${#strings.startsWith(view,'/uploadBook')? 'active' : ''}"
+<<<<<<< HEAD
                         th:if="${#request.isUserInRole('USER')}">
+=======
+                        th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+>>>>>>> Can only view upload if you're an admin
                         <a href="/uploadBook">Upload a book</a>
                     </li>
                 </ul>
