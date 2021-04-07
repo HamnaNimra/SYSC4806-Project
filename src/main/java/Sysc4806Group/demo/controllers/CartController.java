@@ -2,36 +2,53 @@ package Sysc4806Group.demo.controllers;
 
 import Sysc4806Group.demo.entities.Book;
 import Sysc4806Group.demo.entities.Cart;
+import Sysc4806Group.demo.entities.User;
 import Sysc4806Group.demo.repositories.BookRepository;
 import Sysc4806Group.demo.repositories.CartRepository;
+import Sysc4806Group.demo.repositories.RoleRepository;
 import Sysc4806Group.demo.repositories.UserRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import Sysc4806Group.demo.services.UserDetailsImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
-@Controller
+@RestController
 public class CartController {
-    private final CartRepository repository;
-    private final BookRepository bookRepo;
-    private final UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
-    CartController(CartRepository repository, BookRepository bookRepo, UserRepository userRepository) {
-        this.repository = repository;
-        this.bookRepo = bookRepo;
-        this.userRepository = userRepository;
+    @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
+    CartRepository cartRepository;
+
+    @Autowired
+    BookRepository bookRepository;
+
+    @GetMapping("/addBook/{isbn}")
+    public Cart addBookToCart(@PathVariable("isbn") String isbn) {
+        User user = userRepository.getOne(getCurrentUserUid());
+        Cart cart = user.getCart();
+
+        if(cart.addBook(bookRepository.findById(isbn).get())) {
+            System.out.println("book added to cart successfully");
+        } else {
+            System.out.println("error adding book");
+        }
+        cartRepository.save(cart);
+        return cart;
     }
 
+    private String getCurrentUserUid() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
 
-    /*
-    @PostMapping("/addItem")
-    public String addItem(@ModelAttribute Book book, Model model){
-        System.out.println(book.getAuthor());
-        System.out.println(book.getIsbn());
-        System.out.println(book.getInventory());
-        return "view-book";
+        return user.getUid();
+
     }
-     */
-
 }
