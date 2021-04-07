@@ -22,13 +22,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder authenticationMgr) throws Exception {
+    /*public void configureGlobal(AuthenticationManagerBuilder authenticationMgr) throws Exception {
         authenticationMgr.inMemoryAuthentication()
                 .withUser("userhamna@sysc.ca").password(passwordEncoder().encode("sysc4806-project-w21")).roles("USER")
                 .and()
                 .withUser("adminhamna@sysc.ca").password(passwordEncoder().encode("sysc4806-project-w21-user")).roles("ADMIN");
-    }
+    }*/
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
