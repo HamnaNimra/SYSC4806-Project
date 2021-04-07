@@ -8,7 +8,6 @@
 <body>
 
 <div class="container-fluid">
-
     <div class="row">
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="width:100%">
             <a class="navbar-brand" href="/">Amazin</a>
@@ -16,7 +15,6 @@
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item" style="padding-right:50px;padding-left:50px">
@@ -25,15 +23,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/uploadBook">Upload a book</a>
                     </li>
-
                 </ul>
-
                 <form class="form-inline my-2 my-lg-0" th:action="@{/search}" method="get">
                     <input class="form-control mr-sm-2" type="search" th:name="title" placeholder="Search"
                            aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
-
             </div>
         </nav>
     </div>
