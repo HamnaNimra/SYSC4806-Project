@@ -18,8 +18,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(
         prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder authenticationMgr) throws Exception {
+        authenticationMgr.inMemoryAuthentication()
+                .withUser("userhamna@sysc.ca").password(passwordEncoder().encode("sysc4806-project-w21")).roles("USER")
+                .and()
+                .withUser("adminhamna@sysc.ca").password(passwordEncoder().encode("sysc4806-project-w21-user")).roles("ADMIN");
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -52,9 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                  .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
                 .antMatchers("/", "/resources/**", "/signin", "/signup", "/logout", "/*.js", "/*.css").permitAll()
+                .antMatchers("/editBook/**", "/updateBook/**", "/uploadBook").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/signin").usernameParameter("email").permitAll()
-//                .and().antMatchers("/editBook/**", "/updateBook/**", "/uploadBook").hasAnyRole("ROLE_ADMIN", "ROLE_USER")
+//                .and()
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true);
 //                .defaultSuccessUrl("/profile").and().logout().logoutSuccessUrl("/logout").permitAll();
 //        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
