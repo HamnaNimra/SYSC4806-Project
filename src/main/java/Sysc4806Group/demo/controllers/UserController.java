@@ -11,19 +11,29 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import Sysc4806Group.demo.entities.Book;
+import Sysc4806Group.demo.entities.User;
+import Sysc4806Group.demo.entities.Cart;
+import Sysc4806Group.demo.repositories.BookRepository;
+import Sysc4806Group.demo.repositories.UserRepository;
+import Sysc4806Group.demo.repositories.CartRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 public class UserController {
+    private final AtomicLong counter = new AtomicLong();
+
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -32,6 +42,12 @@ public class UserController {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    CartRepository cartRepository;
+
+    @Autowired
+    BookRepository bookRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -50,7 +66,7 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public Object signin(@ModelAttribute User user, Model model) {
+    public String signin(@ModelAttribute User user, Model model) {
         //AUTH FLOW
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
@@ -58,17 +74,27 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+        Cart cart;
+
+        if(user.getCart() == null) {
+            cart = new Cart(counter.incrementAndGet());
+            user.setCart(cart);
+        } else {
+            cart = user.getCart();
+        }
+
         model.addAttribute("user", userDetails);
+        model.addAttribute("cart", cart);
 
         return "profile";
     }
 
     @PostMapping("/signup")
-    public String createUser(@ModelAttribute User user, @RequestParam(required = false) boolean hasAdminRole, Model model) {
+    public RedirectView createUser(@ModelAttribute User user, @RequestParam(required = false) boolean hasAdminRole, Model model) {
 
         if (userRepository.existsByEmail(user.getEmail())) {
             model.addAttribute("error", "Email is already in use");
-            return "error";
+//            return "error";
         };
 
         user.setUid(UUID.randomUUID().toString());
@@ -88,13 +114,40 @@ public class UserController {
 
         user.setRoles(roles);
 
-        userRepository.save(user);
-
         System.out.println("has admin role " + SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN")));
 
         model.addAttribute("success", true);
+        Cart cart = new Cart();
+        cart.setID(counter.incrementAndGet());
+
+        user.setCart(cart);
+
+        cartRepository.save(cart);
+        userRepository.save(user);
+
         model.addAttribute("user", user);
-        return "profile";
+        model.addAttribute("cart", cart);
+
+        return new RedirectView("signin");
     }
+
+
+
+    @GetMapping("/checkout")
+    public String checkout(Model model){
+        User user = userRepository.getOne(getCurrentUserUid()); //.get();//.findByEmail(getCurrentUsername());
+
+        model.addAttribute("cart", user.getCart());
+        return "checkout";
+    }
+
+    private String getCurrentUserUid() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+
+        return user.getUid();
+
+    }
+
 }

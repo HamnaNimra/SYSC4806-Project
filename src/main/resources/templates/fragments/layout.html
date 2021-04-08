@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+
+    <th:block th:fragment="bootstrap-scripts">
+        <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+    </th:block>
+
+
+    <div class="row" th:fragment="amazin-navbar">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="width:100%">
+            <a class="navbar-brand" href="/">Amazin</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto" th:with="view=${#httpServletRequest.getServletPath()}">
+                    <li class="nav-item" style="padding-right:50px;padding-left:50px" th:classappend="${#strings.startsWith(view,'/bookstore')? 'active' : ''}">
+                        <a href="/bookstore">Visit Book Store</a>
+                    </li>
+                    <li class="nav-item" th:classappend="${#strings.startsWith(view,'/uploadBook')? 'active' : ''}">
+                        <a href="/uploadBook">Upload a book</a>
+                    </li>
+
+                </ul>
+
+                <form class="form-inline my-2 my-lg-0" th:action="@{/search}" method="get">
+                    <input class="form-control mr-sm-2" type="search" th:name="title" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+
+            </div>
+        </nav>
+    </div>
+
+</body>
+</html>

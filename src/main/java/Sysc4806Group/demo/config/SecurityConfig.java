@@ -18,8 +18,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(
         prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     UserDetailsServiceImpl userDetailsService;
+
+    /*public void configureGlobal(AuthenticationManagerBuilder authenticationMgr) throws Exception {
+        authenticationMgr.inMemoryAuthentication()
+                .withUser("userhamna@sysc.ca").password(passwordEncoder().encode("sysc4806-project-w21")).roles("USER")
+                .and()
+                .withUser("adminhamna@sysc.ca").password(passwordEncoder().encode("sysc4806-project-w21-user")).roles("ADMIN");
+    }*/
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -50,11 +58,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
 //                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 //                  .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.formLogin().loginPage("/signin").usernameParameter("email").permitAll();
         http.authorizeRequests()
-                .antMatchers("/", "/css/*", "/js/*", "/signin", "/signup", "/logout").permitAll()
-//                .antMatchers("/editBook/**", "/updateBook/**", "/uploadBook").hasAnyRole("ADMIN")
-//                .anyRequest().authenticated()
+                .antMatchers("/", "/resources/**", "/signin", "/signup", "/logout", "/*.js", "/*.css").permitAll()
+                .antMatchers("/editBook/**", "/updateBook/**", "/uploadBook").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/signin").usernameParameter("email").permitAll()
+//                .and()
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true);
 //                .defaultSuccessUrl("/profile").and().logout().logoutSuccessUrl("/logout").permitAll();
 //        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
