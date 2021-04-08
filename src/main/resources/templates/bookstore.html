@@ -3,46 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Book Store</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}"/>
 </head>
 <body>
-Sort By:
+    <div class="container-fluid">
+        Sort By:
 
-<form th:action="@{/bookstore}">
-    <input type="radio" id="title" th:name="sort" value="title">
-    <label for="title">Title</label><br>
-    <input type="radio" id="author" th:name="sort" value="author">
-    <label for="author">Author</label><br>
-    <input type="radio" id="publisher" th:name="sort" value="publisher">
-    <label for="publisher">Publisher</label>
-    <input type="submit" value="Submit">
-</form>
+        <form class="form-control" th:action="@{/bookstore}">
+            <input type="radio" id="title" th:name="sort" value="title">
+            <label for="title">Title</label><br>
+            <input type="radio" id="author" th:name="sort" value="author">
+            <label for="author">Author</label><br>
+            <input type="radio" id="publisher" th:name="sort" value="publisher">
+            <label for="publisher">Publisher</label>
+            <input type="submit" value="Submit">
+        </form>
 
-<a th:href="@{/logout}">Logout</a>
-<table>
-    <thead>
-    <tr>
-        <th> Title</th>
-        <th> ISBN</th>
-        <th> Author</th>
-        <th> Publisher</th>
-        <th> Inventory</th>
-        <th> Add To Cart </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${books.empty}">
-        <td colspan="2"> No Books Available</td>
-    </tr>
-    <tr th:each="book : ${books}">
-        <td><span th:text="${book.title}"> Title </span></td>
-        <td><span th:text="${book.isbn}"> ISBN </span></td>
-        <td><span th:text="${book.author}"> Author </span></td>
-        <td><span th:text="${book.publisher}"> Publisher </span></td>
-        <td><span th:text="${book.inventory}"> Inventory </span></td>
-        <td><span><a th:href="'/viewBook/'+${book.isbn}">View it</a></span></td>
-        <td><span th:unless="${book.isOutOfStock()}"><a th:href="'/addBook/'+${book.isbn}">Add To Cart</a></span></td>
-    </tr>
-    </tbody>
-</table>
+        <a th:href="@{/logout}">Logout</a>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col"> Title</th>
+                <th scope="col"> ISBN</th>
+                <th scope="col"> Author</th>
+                <th scope="col"> Publisher</th>
+                <th scope="col"> Inventory</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${books.empty}">
+                <td colspan="6"> No Books Available</td>
+            </tr>
+            <tr th:each="book : ${books}">
+                <td><span th:text="${book.title}"> Title </span></td>
+                <td><span th:text="${book.isbn}"> ISBN </span></td>
+                <td><span th:text="${book.author}"> Author </span></td>
+                <td><span th:text="${book.publisher}"> Publisher </span></td>
+                <td><span th:text="${book.inventory}"> Inventory </span></td>
+                <td><span><a th:href="'/viewBook/'+${book.isbn}">View it</a></span></td>
+                <td><span th:unless="${book.isOutOfStock()}"><a th:href="'/addBook/'+${book.isbn}">Add To Cart</a></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </body>
 </html>
