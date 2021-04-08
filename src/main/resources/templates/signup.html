@@ -13,6 +13,7 @@
         <p>Last Name: <input class="form-control" type="text" th:field="*{lastName}" /></p>
         <p>Email: <input class="form-control" type="text" th:field="*{email}" /></p>
         <p>Password: <input class="form-control" type="password" th:field="*{password}" /></p>
+
         <p>Admin? <input type="checkbox" name="hasAdminRole" th:checked="${hasAdminRole}" /></p>
         <p><input type="submit" class="btn btn-dark" value="Submit" /> <input class="btn btn-outline-dark" type="reset" value="Reset" /></p>
     </form>
