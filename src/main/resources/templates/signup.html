@@ -3,6 +3,7 @@
 <head>
     <title>Sign Up</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
 <h1>Sign up</h1>
@@ -14,5 +15,8 @@
     <p>Admin? <input type="checkbox" name="hasAdminRole" th:checked="${hasAdminRole}" /></p>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>
+
+
+<th:block th:insert="fragments/layout :: bootstrap-scripts"></th:block>
 </body>
 </html>
