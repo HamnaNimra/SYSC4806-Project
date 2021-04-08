@@ -6,45 +6,7 @@
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
-Sort By:
 
-<form th:action="@{/bookstore}">
-    <input type="radio" id="title" th:name="sort" value="title">
-    <label for="title">Title</label><br>
-    <input type="radio" id="author" th:name="sort" value="author">
-    <label for="author">Author</label><br>
-    <input type="radio" id="publisher" th:name="sort" value="publisher">
-    <label for="publisher">Publisher</label>
-    <input type="submit" value="Submit">
-</form>
-
-<a th:href="@{/logout}">Logout</a>
-<table>
-    <thead>
-    <tr>
-        <th> Title</th>
-        <th> ISBN</th>
-        <th> Author</th>
-        <th> Publisher</th>
-        <th> Inventory</th>
-        <th> Add To Cart </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${books.empty}">
-        <td colspan="2"> No Books Available</td>
-    </tr>
-    <tr th:each="book : ${books}">
-        <td><span th:text="${book.title}"> Title </span></td>
-        <td><span th:text="${book.isbn}"> ISBN </span></td>
-        <td><span th:text="${book.author}"> Author </span></td>
-        <td><span th:text="${book.publisher}"> Publisher </span></td>
-        <td><span th:text="${book.inventory}"> Inventory </span></td>
-        <td><span><a th:href="'/viewBook/'+${book.isbn}">View it</a></span></td>
-        <td><span th:unless="${book.isOutOfStock()}"><a th:href="'/addBook/'+${book.isbn}">Add To Cart</a></span></td>
-    </tr>
-    </tbody>
-</table>
 
 <div class="container-fluid">
 
@@ -70,6 +32,7 @@ Sort By:
             <th> Author</th>
             <th> Publisher</th>
             <th> Inventory</th>
+            <th> Add To Cart </th>
         </tr>
         </thead>
         <tbody>
@@ -83,6 +46,7 @@ Sort By:
             <td><span th:text="${book.publisher}"> Publisher </span></td>
             <td><span th:text="${book.inventory}"> Inventory </span></td>
             <td><span><a th:href="'/viewBook/'+${book.isbn}">View it</a></span></td>
+            <td><span th:unless="${book.isOutOfStock()}"><a th:href="'/addBook/'+${book.isbn}">Add To Cart</a></span></td>
         </tr>
         </tbody>
     </table>
