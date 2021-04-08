@@ -23,15 +23,16 @@
         <td colspan="2">Cart is empty </td>
     </tr>
     <tr th:each="item : ${cart.getItems()}">
-        <td><span th:text="${item.title}"> Title </span></td>
+        <td><a th:href="'/viewBook/'+${item.isbn}" th:text="${item.title}"> Title </a></td>
         <td><span th:text="${item.isbn}"> ISBN </span></td>
         <td><span th:text="${item.author}"> Author </span></td>
         <td><span th:text="${item.publisher}"> Publisher </span></td>
         <td><span th:text="${item.inventory}"> Inventory </span></td>
-        <td><span><a th:href="'/viewBook/'+${item.isbn}">View it</a></span></td>
+        <td><span><a href="#" th:data-isbn="${item.isbn}" onclick="removeFromCart(this.getAttribute('data-isbn'))" >Remove</a></span></td>
     </tr>
     </tbody>
 </table>
-
+<a href="/checkoutState">Finish checkout</a>
+<script type="text/javascript" th:src="@{cart.js}"></script>
 </body>
 </html>

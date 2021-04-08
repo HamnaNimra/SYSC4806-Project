@@ -65,4 +65,27 @@ public class Cart {
         return items.size();
     }
 
+    public boolean has(Book b) {
+        List<Book> items = this.getItems();
+        for(int i = 0; i < items.size(); i++) {
+            if(items.get(i).getIsbn() == b.getIsbn()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void remove(Book b) {
+        List<Book> items = this.getItems();
+        for(int i = 0; i < items.size(); i++) {
+            if(items.get(i).getIsbn() == b.getIsbn()) {
+                this.getItems().remove(i);
+            }
+        }
+    }
+
+    public void clear() {
+        this.items = new ArrayList<Book>();
+    }
+
 }

@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -51,13 +52,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 //                  .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
-                .antMatchers("/", "/resources/**", "/signin", "/signup", "/logout", "/*.js", "/*.css").permitAll()
+                .antMatchers("/", "/resources/**", "/signin", "/signup", "/logout", "/**/*.js", "/**/*.css", "/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/signin").usernameParameter("email").permitAll()
 //                .and().antMatchers("/editBook/**", "/updateBook/**", "/uploadBook").hasAnyRole("ROLE_ADMIN", "ROLE_USER")
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true);
 //                .defaultSuccessUrl("/profile").and().logout().logoutSuccessUrl("/logout").permitAll();
 //        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**");
     }
 
 

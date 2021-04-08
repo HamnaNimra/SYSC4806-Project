@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Book Store</title>
@@ -40,9 +40,11 @@ Sort By:
         <td><span th:text="${book.publisher}"> Publisher </span></td>
         <td><span th:text="${book.inventory}"> Inventory </span></td>
         <td><span><a th:href="'/viewBook/'+${book.isbn}">View it</a></span></td>
-        <td><span th:unless="${book.isOutOfStock()}"><a th:href="'/addBook/'+${book.isbn}">Add To Cart</a></span></td>
+        <td><span th:unless="${book.isOutOfStock()}"><a th:data-isbn="${book.isbn}" th:onclick="addToCart(this.getAttribute('data-isbn'));" href="#">Add To Cart</a></span></td>
     </tr>
     </tbody>
 </table>
+<script type="text/javascript" th:src="@{cart.js}"></script>
+
 </body>
 </html>
