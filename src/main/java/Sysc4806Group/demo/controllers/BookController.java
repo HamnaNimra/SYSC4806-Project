@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.apache.commons.text.similarity.*;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -105,20 +107,34 @@ public class BookController {
     private List<Book> getRecommendations() {
         List<Book> books = repository.findAll();
         User user = userRepository.getOne(getCurrentUserUid());
+        JaccardDistance obj = new JaccardDistance();
 
-
+        List<Book> scoredbooks = new ArrayList<>();
 
         if (!user.getPurchasedBooks().isEmpty()) {
             user.getPurchasedBooks().forEach(book -> {
+                books.forEach(book1 -> {
+                    double titleScore = obj.apply(book.getTitle(), book1.getTitle());
+                    double authorScore = obj.apply(book.getAuthor(), book1.getAuthor());
+                    double publisherScore = obj.apply(book.getPublisher(), book1.getPublisher());
+                    double finalscore = (titleScore * 0.5 + authorScore * 0.3 + publisherScore * 0.2) / 3f;
 
+                    if (book1.getScore() != 0.0) {
+                        if (book1.getScore() < finalscore) {
+                            book1.setScore(finalscore);
+                        }
+                    } else {
+                        book1.setScore(finalscore);
+                    }
+
+                    scoredbooks.add(book1);
+                });
             });
 
         } else {
             Collections.shuffle(books);
             return books.subList(0, 9);
         }
-
-
         return null;
     }
 

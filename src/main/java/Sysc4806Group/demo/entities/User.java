@@ -2,7 +2,6 @@ package Sysc4806Group.demo.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
@@ -21,7 +20,6 @@ public class User {
     private String uid;
     private String firstName;
     private String lastName;
-    private float score;
 
     @NotBlank
     @Size(max = 50)
@@ -133,13 +131,5 @@ public class User {
 
     public void purchaseBook(Book book) {
         purchasedBooks.add(book);
-    }
-
-    public float getScore() {
-        return score;
-    }
-
-    public void setScore(float score) {
-        this.score = score;
     }
 }
