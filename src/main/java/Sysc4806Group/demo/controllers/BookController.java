@@ -85,8 +85,6 @@ public class BookController {
             books.sort(Comparator.comparing(Book::getTitle));
         }
 
-        getRecommendations();
-
         model.addAttribute("books", books);
         return "bookstore";
     }
@@ -109,57 +107,6 @@ public class BookController {
         Book book = bookRepository.getOne(id);
         model.addAttribute("template", book);
         return "add-item";
-    }
-
-    private List<Book> getRecommendations() {
-        List<Book> books = bookRepository.findAll();
-        User user = userRepository.getOne(getCurrentUserUid());
-        JaccardDistance obj = new JaccardDistance();
-
-        Map<String, Book> scoredBooks = new HashMap<>();
-
-        if (!user.getPurchasedBooks().isEmpty()) {
-            user.getPurchasedBooks().forEach(book -> books.forEach(book1 -> {
-                if (!user.getPurchasedBooks().contains(book1)) {
-                    double titleScore = obj.apply(book.getTitle(), book1.getTitle());
-                    double authorScore = obj.apply(book.getAuthor(), book1.getAuthor());
-                    double publisherScore = obj.apply(book.getPublisher(), book1.getPublisher());
-                    double finalScore = (titleScore * 0.7 + authorScore * 0.2 + publisherScore * 0.1);
-
-                    if (book1.getScore() != 0.0) {
-                        if (book1.getScore() > finalScore) {
-                            book1.setScore(finalScore);
-                        }
-                    } else {
-                        book1.setScore(finalScore);
-                    }
-                    scoredBooks.put(book1.getTitle(), book1);
-                }
-            }));
-
-            List<Book> scoredBooksList = new ArrayList<>(scoredBooks.values());
-            scoredBooksList.sort(Comparator.comparingDouble(Book::getScore));
-
-            for (int i = 0; i < scoredBooksList.size(); i++) {
-                System.out.println("Book" + i);
-                System.out.println(scoredBooksList.get(i).getTitle());
-                System.out.println(scoredBooksList.get(i).getAuthor());
-                System.out.println(scoredBooksList.get(i).getPublisher());
-                System.out.println(scoredBooksList.get(i).getScore());
-            }
-            if (scoredBooks.size() >= 5) {
-                return scoredBooksList.subList(0, 4);
-            } else {
-                return scoredBooksList;
-            }
-
-        } else if (books.size() <= 5) {
-            Collections.shuffle(books);
-            return books;
-        } else {
-            Collections.shuffle(books);
-            return books.subList(0, 4);
-        }
     }
 
     private String getCurrentUserUid() {

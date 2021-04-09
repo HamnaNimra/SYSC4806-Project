@@ -5,6 +5,7 @@ import Sysc4806Group.demo.entities.User;
 import Sysc4806Group.demo.repositories.RoleRepository;
 import Sysc4806Group.demo.repositories.UserRepository;
 import Sysc4806Group.demo.services.UserDetailsImpl;
+import org.apache.commons.text.similarity.JaccardDistance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,22 +13,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import Sysc4806Group.demo.entities.Book;
-import Sysc4806Group.demo.entities.User;
 import Sysc4806Group.demo.entities.Cart;
 import Sysc4806Group.demo.repositories.BookRepository;
-import Sysc4806Group.demo.repositories.UserRepository;
 import Sysc4806Group.demo.repositories.CartRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
@@ -85,6 +80,9 @@ public class UserController {
 
         model.addAttribute("user", userDetails);
         model.addAttribute("cart", cart);
+        List<Book> recBooks = getRecommendations();
+        System.out.println(recBooks.size() + recBooks.toString());
+        model.addAttribute("recBooks", recBooks);
 
         return "profile";
     }
@@ -116,7 +114,6 @@ public class UserController {
 
         user.setRoles(roles);
 
-
         model.addAttribute("success", true);
         Cart cart = new Cart();
         cart.setID(counter.incrementAndGet());
@@ -135,7 +132,7 @@ public class UserController {
 
     @GetMapping("/checkout")
     public String checkout(Model model) {
-        User user = userRepository.getOne(getCurrentUserUid()); //.get();//.findByEmail(getCurrentUsername());
+        User user = userRepository.getOne(getCurrentUserUid());
 
         model.addAttribute("cart", user.getCart());
         return "checkout";
@@ -160,9 +157,60 @@ public class UserController {
 
         model.addAttribute("user", user);
 
+        List<Book> recBooks = getRecommendations();
+        model.addAttribute("recBooks", recBooks);
+        System.out.println(recBooks.size() + recBooks.toString());
         return "profile";
     }
 
+    private List<Book> getRecommendations() {
+        List<Book> books = bookRepository.findAll();
+        User user = userRepository.getOne(getCurrentUserUid());
+        JaccardDistance obj = new JaccardDistance();
+
+        Map<String, Book> scoredBooks = new HashMap<>();
+
+        if (!user.getPurchasedBooks().isEmpty()) {
+            user.getPurchasedBooks().forEach(book -> books.forEach(book1 -> {
+                if (!user.getPurchasedBooks().contains(book1)) {
+                    double titleScore = obj.apply(book.getTitle(), book1.getTitle());
+                    double authorScore = obj.apply(book.getAuthor(), book1.getAuthor());
+                    double publisherScore = obj.apply(book.getPublisher(), book1.getPublisher());
+                    double finalScore = (titleScore * 0.7 + authorScore * 0.2 + publisherScore * 0.1);
+
+                    if (book1.getScore() != 0.0) {
+                        if (book1.getScore() > finalScore) {
+                            book1.setScore(finalScore);
+                        }
+                    } else {
+                        book1.setScore(finalScore);
+                    }
+                    scoredBooks.put(book1.getTitle(), book1);
+                }
+            }));
+
+            List<Book> scoredBooksList = new ArrayList<>(scoredBooks.values());
+            scoredBooksList.sort(Comparator.comparingDouble(Book::getScore));
+
+            for (int i = 0; i < scoredBooksList.size(); i++) {
+                System.out.println("Book" + i);
+                System.out.println(scoredBooksList.get(i).getTitle());
+                System.out.println(scoredBooksList.get(i).getAuthor());
+                System.out.println(scoredBooksList.get(i).getPublisher());
+                System.out.println(scoredBooksList.get(i).getScore());
+            }
+
+            System.out.println("User history exists.");
+            if (scoredBooks.size() >= 5) {
+                return scoredBooksList.subList(0, 10);
+            } else {
+                return scoredBooksList;
+            }
+
+        } else {
+            return new ArrayList<>(scoredBooks.values());
+        }
+    }
 
     private String getCurrentUserUid() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
