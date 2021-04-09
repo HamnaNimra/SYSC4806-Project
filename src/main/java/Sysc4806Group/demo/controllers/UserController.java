@@ -105,17 +105,17 @@ public class UserController {
         Role userRole = roleRepository.findByName(Role.Roles.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         roles.add(userRole);
+        user.setUserRole("ROLE_USER");
 
         if(hasAdminRole) {
             Role adminRole = roleRepository.findByName(Role.Roles.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(adminRole);
+            user.setUserRole("ROLE_ADMIN");
         }
 
         user.setRoles(roles);
 
-        System.out.println("has admin role " + SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN")));
 
         model.addAttribute("success", true);
         Cart cart = new Cart();
