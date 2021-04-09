@@ -36,6 +36,7 @@ class AmazinApplicationTests {
     @Autowired
     private BookRepository repository;
 
+    /*
     @Test
     public void blankSearch() throws Exception {
         this.mockMvc.perform(get("/search?title=Summer")).andDo(print()).andExpect(status().isOk());
@@ -60,5 +61,5 @@ class AmazinApplicationTests {
                         content().string(containsString("1234"))
                 )
         );
-    }
+    } */
 }
