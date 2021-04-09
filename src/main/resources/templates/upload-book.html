@@ -6,22 +6,27 @@
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
+
 <div class="container-fluid">
+
+    <div class="row" th:replace="fragments/layout :: amazin-navbar"></div>
+
     <h1>Upload a Book</h1>
     <form action="#" th:action="@{/uploadBook}" th:object="${template}" method="post">
-        <p>Title: <input class="form-control" type="text" th:field="*{title}"/></p>
-        <p>ISBN: <input class="form-control" type="text" th:field="*{isbn}"/></p>
-        <p>Author: <input class="form-control" type="text" th:field="*{author}"/></p>
-        <p>Publisher: <input class="form-control" type="text" th:field="*{publisher}"/></p>
-        <p>Picture URL: <input class="form-control" type="text" th:field="*{pictureUrl}"/></p>
-        <p>Inventory Num: <input class="form-control" type="text" th:field="*{inventory}"/></p>
+        <p>Title: <input type="text" th:field="*{title}"/></p>
+        <p>ISBN: <input type="text" th:field="*{isbn}"/></p>
+        <p>Author: <input type="text" th:field="*{author}"/></p>
+        <p>Publisher: <input type="text" th:field="*{publisher}"/></p>
+        <p>Picture URL: <input type="text" th:field="*{pictureUrl}"/></p>
+        <p>Inventory Num: <input type="text" th:field="*{inventory}"/></p>
 
-        <p><input type="submit" class="btn btn-dark" value="Submit" /></p>
+        <p><input type="submit" value="Submit"/></p>
+
     </form>
 
 </div>
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+
+
+<th:block th:insert="fragments/layout :: bootstrap-scripts"></th:block>
 </body>
 </html>

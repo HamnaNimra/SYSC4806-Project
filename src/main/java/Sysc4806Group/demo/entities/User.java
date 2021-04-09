@@ -131,13 +131,7 @@ public class User {
     }
 
 
-    public boolean purchaseBook(Book book) {
-        if (book.getInventory() > 0) {
-            purchasedBooks.add(book);
-            book.sold();
-            return true;
-        } else {
-            return false;
-        }
+    public void purchaseBook(Book book) {
+        purchasedBooks.add(book);
     }
 }

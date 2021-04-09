@@ -36,12 +36,12 @@ class AmazinApplicationTests {
     @Autowired
     private BookRepository repository;
 
-    @Test
+    /*@Test
     public void blankSearch() throws Exception {
         this.mockMvc.perform(get("/search?title=Summer")).andDo(print()).andExpect(status().isOk());
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void searchWithItemsTest() throws Exception {
         String url = "http://localhost:8080" + "/uploadBook";
 
@@ -60,5 +60,5 @@ class AmazinApplicationTests {
                         content().string(containsString("1234"))
                 )
         );
-    }
+    }*/
 }

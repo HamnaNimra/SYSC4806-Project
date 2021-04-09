@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>View Book</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
+
+<div class="container-fluid">
+
+    <div class="row" th:replace="fragments/layout :: amazin-navbar"></div>
+
     <p th:text="'Title: ' + ${template.getTitle()}" />
     <p th:text="'ISBN: ' + ${template.getIsbn()}" />
     <p th:text="'Author: ' + ${template.getAuthor()}" />
     <p th:text="'Publisher: ' + ${template.getPublisher()}" />
     <p th:text="'Inventory: ' + ${template.getInventory()}" />
     <img th:src="${template.getPictureUrl()}" />
-    <span th:unless="${template.isOutOfStock()}"><a th:href="'/addBook/'+${template.getIsbn()}">Add To Cart</a></span>
+    <span th:unless="${template.isOutOfStock()}"><a th:data-isbn="${book.isbn}" th:onclick="addToCart(this.getAttribute('data-isbn'));" href="#">Add To Cart</a></span>
 
+    <script type="text/javascript" th:src="@{cart.js}"></script>
+
+</div>
+
+
+<th:block th:insert="fragments/layout :: bootstrap-scripts"></th:block>
 </body>
 </html>
