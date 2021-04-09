@@ -76,7 +76,7 @@ public class UserController {
 
         Cart cart;
 
-        if(user.getCart() == null) {
+        if (user.getCart() == null) {
             cart = new Cart(counter.incrementAndGet());
             user.setCart(cart);
         } else {
@@ -95,7 +95,7 @@ public class UserController {
         if (userRepository.existsByEmail(user.getEmail())) {
             model.addAttribute("error", "Email is already in use");
 //            return "error";
-        };
+        }
 
         user.setUid(UUID.randomUUID().toString());
         user.setPassword(encoder.encode(user.getPassword()));
@@ -107,7 +107,7 @@ public class UserController {
         roles.add(userRole);
         user.setUserRole("ROLE_USER");
 
-        if(hasAdminRole) {
+        if (hasAdminRole) {
             Role adminRole = roleRepository.findByName(Role.Roles.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(adminRole);
@@ -133,9 +133,8 @@ public class UserController {
     }
 
 
-
     @GetMapping("/checkout")
-    public String checkout(Model model){
+    public String checkout(Model model) {
         User user = userRepository.getOne(getCurrentUserUid()); //.get();//.findByEmail(getCurrentUsername());
 
         model.addAttribute("cart", user.getCart());
@@ -147,9 +146,9 @@ public class UserController {
         User user = userRepository.getOne(getCurrentUserUid());
         Cart cart = user.getCart();
 
-        for(int i = 0; i < cart.getItems().size(); i++) {
+        for (int i = 0; i < cart.getItems().size(); i++) {
             Book book = bookRepository.findById(cart.getItems().get(i).getIsbn()).get();
-            if(book.getInventory() > 0) {
+            if (book.getInventory() > 0) {
                 book.sold();
                 user.purchaseBook(book);
                 bookRepository.save(book);
@@ -163,7 +162,6 @@ public class UserController {
 
         return "profile";
     }
-    
 
 
     private String getCurrentUserUid() {

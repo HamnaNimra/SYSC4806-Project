@@ -1,9 +1,7 @@
 package Sysc4806Group.demo;
 
 import Sysc4806Group.demo.entities.Book;
-import Sysc4806Group.demo.entities.User;
 import Sysc4806Group.demo.repositories.BookRepository;
-import Sysc4806Group.demo.repositories.UserRepository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 public class AmazinApplication {
     @Autowired
     private BookRepository bookRepository;
-
 
     public static void main(String[] args) {
         SpringApplication.run(AmazinApplication.class, args);
