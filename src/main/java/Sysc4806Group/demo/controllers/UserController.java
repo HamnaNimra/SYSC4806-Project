@@ -105,11 +105,13 @@ public class UserController {
         Role userRole = roleRepository.findByName(Role.Roles.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         roles.add(userRole);
+        user.setUserRole("ROLE_USER");
 
         if(hasAdminRole) {
             Role adminRole = roleRepository.findByName(Role.Roles.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(adminRole);
+            user.setUserRole("ROLE_ADMIN");
         }
 
         user.setRoles(roles);

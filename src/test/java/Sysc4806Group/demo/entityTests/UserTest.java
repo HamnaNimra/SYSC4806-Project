@@ -12,14 +12,11 @@ public class UserTest {
 
     User user;
     Set<Role> roles = new HashSet<>();
+    private Object Role;
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
-        this.user = new User( "10" ,"Hamna", "Nimra", "hamnanimra@github.com", "easypassword?");
-    }
-
-    @org.junit.jupiter.api.AfterEach
-    void tearDown() {
+        this.user = new User( "10" ,"Hamna", "Nimra", "hamnanimra@github.com", "easypassword?", "ROLE_ADMIN");
     }
 
     @org.junit.jupiter.api.Test
@@ -49,4 +46,26 @@ public class UserTest {
         user.setPassword("N0tE@sy2Guess");
         assertEquals(user.getPassword(),"N0tE@sy2Guess");
     }
+
+    @org.junit.jupiter.api.Test
+    void notPassword(){
+        assertNotEquals(user.getPassword(),"hardPass?");
+    }
+
+    @org.junit.jupiter.api.Test
+    void getUserRole(){
+        assertEquals(user.getUserRole(),"ROLE_ADMIN");
+    }
+    @org.junit.jupiter.api.Test
+    void setUserRole(){
+        user.setUserRole("ROLE_USER");
+        assertEquals(user.getUserRole(),"ROLE_USER");
+    }
+
+    @org.junit.jupiter.api.Test
+    void notUserRole(){
+        user.setUserRole("ROLE_USER");
+        assertNotEquals(user.getUserRole(),"ROLE_ADMIN");
+    }
+
 }

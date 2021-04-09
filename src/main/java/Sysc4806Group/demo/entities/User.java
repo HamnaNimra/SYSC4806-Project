@@ -32,6 +32,8 @@ public class User {
     @Size(max = 50)
     private String password;
 
+    private String userRole;
+
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -47,12 +49,13 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> purchasedBooks;
 
-    public User(String uid, String firstName, String lastName, String email, String password) {
+    public User(String uid, String firstName, String lastName, String email, String password, String userRole) {
         this.uid = uid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.userRole = userRole;
     }
 
     public User(String uid) {
@@ -112,6 +115,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public List<Book> getPurchasedBooks() {

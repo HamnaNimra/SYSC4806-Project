@@ -15,10 +15,6 @@ public class BookTest {
         this.book = new Book( "123456", "XYZ Book", "Random Author", "Nelson", "google.com/images", 15);
     }
 
-    @org.junit.jupiter.api.AfterEach
-    void tearDown() {
-    }
-
     @org.junit.jupiter.api.Test
     void getIsbn(){
         assertEquals(book.getIsbn(), "123456");
@@ -27,11 +23,27 @@ public class BookTest {
     void setIsbn(){
         book.setIsbn("000456");
         assertEquals(book.getIsbn(), "000456");
+        assertNotEquals(book.getIsbn(), "absy932");
     }
+
+    @org.junit.jupiter.api.Test
+    void notIsbn(){
+        book.setIsbn("000456");
+        assertNotEquals(book.getIsbn(), "absy932");
+    }
+
     @org.junit.jupiter.api.Test
     void getTitle(){
         assertEquals(book.getTitle(), "XYZ Book");
+        assertNotEquals(book.getTitle(), "My First Book");
     }
+
+    @org.junit.jupiter.api.Test
+    void notTitle(){
+        assertNotEquals(book.getTitle(), "My First Book");
+        assertNotEquals(book.getTitle(), "My Second Book");
+    }
+
     @org.junit.jupiter.api.Test
     void setTitle(){
         book.setTitle("My First Book");
@@ -40,6 +52,7 @@ public class BookTest {
 
     @org.junit.jupiter.api.Test
     void getAuthor(){
+        assertNotEquals(book.getAuthor(), "Known Author");
         assertEquals(book.getAuthor(), "Random Author");
     }
 
