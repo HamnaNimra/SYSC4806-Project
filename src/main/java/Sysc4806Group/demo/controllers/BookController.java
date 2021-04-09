@@ -119,7 +119,7 @@ public class BookController {
                     double finalScore = (titleScore * 0.7 + authorScore * 0.2 + publisherScore * 0.1);
 
                     if (book1.getScore() != 0.0) {
-                        if (book1.getScore() < finalScore) {
+                        if (book1.getScore() > finalScore) {
                             book1.setScore(finalScore);
                         }
                     } else {
