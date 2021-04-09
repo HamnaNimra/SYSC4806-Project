@@ -4,12 +4,15 @@ import Sysc4806Group.demo.repositories.BookRepository;
 import com.github.dockerjava.zerodep.shaded.org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
 import com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.http.io.entity.EntityUtils;
 import com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import static org.hamcrest.Matchers.containsString;
@@ -31,15 +34,33 @@ class AmazinApplicationTests {
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc userMvc;
 
     @Autowired
     private BookRepository repository;
 
-    /*@Test
-    public void blankSearch() throws Exception {
-        this.mockMvc.perform(get("/search?title=Summer")).andDo(print()).andExpect(status().isOk());
-    }*/
+    @Before
+    void setup(){}
+
+
+    @Test
+    public void getSignup() throws Exception {
+        MvcResult result = this.userMvc.perform(get("/signup")
+                .contentType(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andReturn();
+        String contents = result.getResponse().getContentAsString();
+        assert(contents.contains("First Name"));
+        assert(contents.contains("Last Name"));
+        assert(contents.contains("Email"));
+        assert(contents.contains("Password"));
+        assert(contents.contains("Admin?"));
+    }
+
+    @Test
+    public void postSignup() throws Exception {
+
+    }
 
     /*@Test
     public void searchWithItemsTest() throws Exception {
