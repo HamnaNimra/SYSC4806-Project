@@ -125,14 +125,6 @@ public class User {
         this.roles = roles;
     }
 
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
-    }
-
     public List<Book> getPurchasedBooks() {
         return purchasedBooks;
     }
