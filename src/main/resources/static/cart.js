@@ -56,7 +56,7 @@ function showCart(data) {
         items += '<li class="list-group-item"><a href="/viewBook/'+ data[i].isbn + '">' + data[i].title + '<br />by ' + data[i].author + '</a><a data-isbn="'+ data[i].isbn +'" href="#" onclick="removeFromCart(this.getAttribute(' + "'data-isbn'" + '));">Remove</a></li>';
     }
 
-    var template = '<div class="card" style="width: 18rem;">' +
+    var template = '<div class="card" style="width: 18rem; position:fixed; top:0; right:0;">' +
           '<div class="card-body">' +
             '<h5 class="card-title">Your Cart</h5>' +
           '</div>' +
@@ -64,7 +64,7 @@ function showCart(data) {
           items +
           '</ul>' +
           '<div class="card-body">' +
-            '<a href="/checkout" class="card-link">Checkout</a>'
+            '<a class="btn btn-dark" href="/checkout" class="card-link">Checkout</a>'
           '</div>' +
           '</div>';
 
