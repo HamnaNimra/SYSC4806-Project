@@ -11,10 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "email")
-        })
+@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "email") })
 public class User {
     @Id
     private String uid;
@@ -30,28 +27,27 @@ public class User {
     @Size(max = 50)
     private String password;
 
+    private String userRole;
+
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     private Cart cart;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_books",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @JoinTable(name = "user_books", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> purchasedBooks;
 
-    public User(String uid, String firstName, String lastName, String email, String password) {
+    public User(String uid, String firstName, String lastName, String email, String password, String userRole) {
         this.uid = uid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         purchasedBooks = new ArrayList<>();
+        this.userRole = userRole;
     }
 
     public User(String uid) {
@@ -103,6 +99,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public Set<Role> getRoles() {

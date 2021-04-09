@@ -51,7 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 //                  .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
-                .antMatchers("/", "/resources/**", "/signin", "/signup", "/logout", "/**/*.js", "/**/*.css", "/static/**").permitAll()
+                .antMatchers("/", "/resources/**", "/signin", "/signup", "/logout",  "/**/*.js", "/**/*.css", "/static/**", "/*.js", "/*.css","/webjars/**").permitAll()
+                .antMatchers("/editBook/**", "/updateBook/**", "/uploadBook").hasRole("ADMIN")
+
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/signin").usernameParameter("email").permitAll()
 //                .and().antMatchers("/editBook/**", "/updateBook/**", "/uploadBook").hasAnyRole("ROLE_ADMIN", "ROLE_USER")

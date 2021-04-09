@@ -69,18 +69,19 @@ public class BookController {
         // Sort through books based on given parameter
         if (sortBy != null) {
             switch (sortBy) {
-                case "title":
-                    books.sort(Comparator.comparing(Book::getTitle));
-                    break;
-                case "author":
-                    books.sort(Comparator.comparing(Book::getAuthor));
-                    break;
-                case "publisher":
-                    books.sort(Comparator.comparing(Book::getPublisher));
-                    break;
+            case "title":
+                books.sort(Comparator.comparing(Book::getTitle));
+                break;
+            case "author":
+                books.sort(Comparator.comparing(Book::getAuthor));
+                break;
+            case "publisher":
+                books.sort(Comparator.comparing(Book::getPublisher));
+                break;
             }
         } else {
-            // If no parameter -> sort by title (when you first load up bookstore for example))
+            // If no parameter -> sort by title (when you first load up bookstore for
+            // example))
             books.sort(Comparator.comparing(Book::getTitle));
         }
 
@@ -158,5 +159,10 @@ public class BookController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
         return user.getUid();
+    @GetMapping("/addItem/{id}")
+    public String addItemForm(@PathVariable String id, Model model) throws Exception {
+        Book book = repository.getOne(id);
+        model.addAttribute("template", book);
+        return "add-item";
     }
 }
