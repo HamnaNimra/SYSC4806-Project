@@ -109,6 +109,14 @@ public class User {
         this.password = password;
     }
 
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
