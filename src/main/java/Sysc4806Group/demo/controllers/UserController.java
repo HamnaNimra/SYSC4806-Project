@@ -202,7 +202,7 @@ public class UserController {
 
             System.out.println("User history exists.");
             if (scoredBooks.size() >= 5) {
-                return scoredBooksList.subList(0, 10);
+                return scoredBooksList.subList(0, 9);
             } else {
                 return scoredBooksList;
             }
