@@ -11,7 +11,9 @@ import Sysc4806Group.demo.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -34,13 +36,31 @@ public class CartController {
     public Cart addBookToCart(@PathVariable("isbn") String isbn) {
         User user = userRepository.getOne(getCurrentUserUid());
         Cart cart = user.getCart();
+        Book book = bookRepository.findById(isbn).get();
 
-        if(cart.addBook(bookRepository.findById(isbn).get())) {
-            System.out.println("book added to cart successfully");
-        } else {
-            System.out.println("error adding book");
+        if(!cart.has(book)) {
+            if(cart.addBook(book)) {
+                System.out.println("book added to cart successfully");
+            } else {
+                System.out.println("error adding book");
+            }
+            cartRepository.save(cart);
         }
-        cartRepository.save(cart);
+
+        return cart;
+    }
+
+    @GetMapping("/removeBook/{isbn}")
+    public Cart removeBookFromCart(@PathVariable("isbn") String isbn) {
+        User user = userRepository.getOne(getCurrentUserUid());
+        Cart cart = user.getCart();
+        Book book = bookRepository.findById(isbn).get();
+
+        if(cart.has(book)) {
+            cart.remove(book);
+            cartRepository.save(cart);
+        }
+
         return cart;
     }
 

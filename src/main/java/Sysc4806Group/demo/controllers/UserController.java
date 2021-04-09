@@ -142,6 +142,29 @@ public class UserController {
         return "checkout";
     }
 
+    @GetMapping("/checkoutState")
+    public String finishCheckout(Model model) {
+        User user = userRepository.getOne(getCurrentUserUid());
+        Cart cart = user.getCart();
+
+        for(int i = 0; i < cart.getItems().size(); i++) {
+            Book book = bookRepository.findById(cart.getItems().get(i).getIsbn()).get();
+            if(book.getInventory() > 0) {
+                book.sold();
+                user.purchaseBook(book);
+                bookRepository.save(book);
+            }
+        }
+        userRepository.save(user);
+        cart.clear();
+        cartRepository.save(cart);
+
+        model.addAttribute("user", user);
+
+        return "profile";
+    }
+
+
     private String getCurrentUserUid() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
