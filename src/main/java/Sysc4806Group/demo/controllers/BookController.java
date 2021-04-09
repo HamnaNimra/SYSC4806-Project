@@ -87,6 +87,8 @@ public class BookController {
             books.sort(Comparator.comparing(Book::getTitle));
         }
 
+        getRecommendations();
+
         model.addAttribute("books", books);
         return "bookstore";
     }
@@ -112,30 +114,41 @@ public class BookController {
         List<Book> scoredbooks = new ArrayList<>();
 
         if (!user.getPurchasedBooks().isEmpty()) {
-            user.getPurchasedBooks().forEach(book -> {
-                books.forEach(book1 -> {
-                    double titleScore = obj.apply(book.getTitle(), book1.getTitle());
-                    double authorScore = obj.apply(book.getAuthor(), book1.getAuthor());
-                    double publisherScore = obj.apply(book.getPublisher(), book1.getPublisher());
-                    double finalscore = (titleScore * 0.5 + authorScore * 0.3 + publisherScore * 0.2) / 3f;
+            user.getPurchasedBooks().forEach(book -> books.forEach(book1 -> {
+                double titleScore = obj.apply(book.getTitle(), book1.getTitle());
+                double authorScore = obj.apply(book.getAuthor(), book1.getAuthor());
+                double publisherScore = obj.apply(book.getPublisher(), book1.getPublisher());
+                double finalScore = (titleScore * 0.5 + authorScore * 0.3 + publisherScore * 0.2) / 3f;
 
-                    if (book1.getScore() != 0.0) {
-                        if (book1.getScore() < finalscore) {
-                            book1.setScore(finalscore);
-                        }
-                    } else {
-                        book1.setScore(finalscore);
+                if (book1.getScore() != 0.0) {
+                    if (book1.getScore() < finalScore) {
+                        book1.setScore(finalScore);
                     }
+                } else {
+                    book1.setScore(finalScore);
+                }
 
-                    scoredbooks.add(book1);
-                });
-            });
+                scoredbooks.add(book1);
+            }));
+
+            scoredbooks.sort(Comparator.comparingDouble(Book::getScore));
+            for (int i = 0; i < scoredbooks.size(); i++) {
+                System.out.println("Book" + i);
+                System.out.println(scoredbooks.get(i).getTitle());
+                System.out.println(scoredbooks.get(i).getAuthor());
+                System.out.println(scoredbooks.get(i).getPublisher());
+            }
+            System.out.println();
+            if (scoredbooks.size() >= 10) {
+                return scoredbooks.subList(0, 9);
+            } else {
+                return scoredbooks;
+            }
 
         } else {
             Collections.shuffle(books);
             return books.subList(0, 9);
         }
-        return null;
     }
 
     private String getCurrentUserUid() {
