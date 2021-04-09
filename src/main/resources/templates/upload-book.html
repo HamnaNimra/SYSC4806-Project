@@ -1,32 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Upload a Book</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{stylesheet.css}"/>
 </head>
 <body>
 
 <div class="container-fluid">
-
     <div class="row" th:replace="fragments/layout :: amazin-navbar"></div>
 
     <h1>Upload a Book</h1>
     <form action="#" th:action="@{/uploadBook}" th:object="${template}" method="post">
-        <p>Title: <input type="text" th:field="*{title}"/></p>
-        <p>ISBN: <input type="text" th:field="*{isbn}"/></p>
-        <p>Author: <input type="text" th:field="*{author}"/></p>
-        <p>Publisher: <input type="text" th:field="*{publisher}"/></p>
-        <p>Picture URL: <input type="text" th:field="*{pictureUrl}"/></p>
-        <p>Inventory Num: <input type="text" th:field="*{inventory}"/></p>
+        <p>Title: <input class="form-control" type="text" th:field="*{title}"/></p>
+        <p>ISBN: <input class="form-control"type="text" th:field="*{isbn}"/></p>
+        <p>Author: <input class="form-control"type="text" th:field="*{author}"/></p>
+        <p>Publisher: <input class="form-control" type="text" th:field="*{publisher}"/></p>
+        <p>Picture URL: <input class="form-control"type="text" th:field="*{pictureUrl}"/></p>
+        <p>Inventory Num: <input class="form-control "type="text" th:field="*{inventory}"/></p>
 
-        <p><input type="submit" value="Submit"/></p>
-
+        <p><input class="btn btn-dark" type="submit" value="Submit"/></p>
     </form>
-
 </div>
-
-
 <th:block th:insert="fragments/layout :: bootstrap-scripts"></th:block>
 </body>
 </html>

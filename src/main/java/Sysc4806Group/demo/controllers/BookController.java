@@ -92,4 +92,11 @@ public class BookController {
         repository.save(bookFromDB);
         return "view-book";
     }
+
+    @GetMapping("/addItem/{id}")
+    public String addItemForm(@PathVariable String id, Model model) throws Exception {
+        Book book = repository.getOne(id);
+        model.addAttribute("template", book);
+        return "add-item";
+    }
 }
