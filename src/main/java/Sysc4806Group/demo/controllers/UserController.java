@@ -116,8 +116,6 @@ public class UserController {
 
         user.setRoles(roles);
 
-        System.out.println("has admin role " + SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ADMIN")));
 
         model.addAttribute("success", true);
         Cart cart = new Cart();
