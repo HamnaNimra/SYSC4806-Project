@@ -32,11 +32,14 @@ public class User {
     @Size(max = 50)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Cart cart;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable( name = "user_books",
@@ -119,13 +122,16 @@ public class User {
         this.purchasedBooks = purchasedBooks;
     }
 
-    public boolean purchaseBook(Book book) {
-        if (book.getInventory() > 0) {
-            purchasedBooks.add(book);
-            book.sold();
-            return true;
-        } else {
-            return false;
-        }
+    public Cart getCart(){
+        return cart;
+    }
+
+    public void setCart(Cart cart){
+        this.cart = cart;
+    }
+
+
+    public void purchaseBook(Book book) {
+        purchasedBooks.add(book);
     }
 }

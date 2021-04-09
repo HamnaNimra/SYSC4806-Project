@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+</head>
+<body>
+<h1>Your Cart</h1>
+<p>Checkout<p/>
+
+<table>
+    <thead>
+    <tr>
+        <th> Title </th>
+        <th> ISBN </th>
+        <th> Author </th>
+        <th> Publisher </th>
+        <th> Inventory </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${cart.empty}">
+        <td colspan="2">Cart is empty </td>
+    </tr>
+    <tr th:each="item : ${cart.getItems()}">
+        <td><a th:href="'/viewBook/'+${item.isbn}" th:text="${item.title}"> Title </a></td>
+        <td><span th:text="${item.isbn}"> ISBN </span></td>
+        <td><span th:text="${item.author}"> Author </span></td>
+        <td><span th:text="${item.publisher}"> Publisher </span></td>
+        <td><span th:text="${item.inventory}"> Inventory </span></td>
+        <td><span><a href="#" th:data-isbn="${item.isbn}" onclick="removeFromCart(this.getAttribute('data-isbn'))" >Remove</a></span></td>
+    </tr>
+    </tbody>
+</table>
+<a href="/checkoutState">Finish checkout</a>
+<script type="text/javascript" th:src="@{cart.js}"></script>
+</body>
+</html>
