@@ -31,3 +31,9 @@ Everything in the application is simulated.
 
 ![img_1.png](class_UML.png)
 
+
+## Product Tracking using Clubhouse:
+
+![image](https://user-images.githubusercontent.com/38963550/114181000-f8eff780-990e-11eb-8342-8b26734271f0.png)
+
+
