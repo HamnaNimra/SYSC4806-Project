@@ -3,24 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Your Cart</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
-<h1>Your Cart</h1>
-<p>Checkout<p/>
+<div class="container-fluid">
+    <div class="row" th:replace="fragments/layout :: amazin-navbar"></div>
 
-<table>
+    <h1>Your Cart</h1>
+    <p>Checkout<p/>
+
+<table class="table table-hover">
     <thead>
     <tr>
-        <th> Title </th>
-        <th> ISBN </th>
-        <th> Author </th>
-        <th> Publisher </th>
-        <th> Inventory </th>
+        <th scope="col"> Title </th>
+        <th scope="col"> ISBN </th>
+        <th scope="col"> Author </th>
+        <th scope="col"> Publisher </th>
+        <th scope="col"> Inventory </th>
     </tr>
     </thead>
     <tbody>
     <tr th:if="${cart.empty}">
-        <td colspan="2">Cart is empty </td>
+        <td colspan="5">Cart is empty </td>
     </tr>
     <tr th:each="item : ${cart.getItems()}">
         <td><a th:href="'/viewBook/'+${item.isbn}" th:text="${item.title}"> Title </a></td>
@@ -32,7 +36,9 @@
     </tr>
     </tbody>
 </table>
-<a href="/checkoutState">Finish checkout</a>
+<a class="btn btn-dark"href="/checkoutState">Finish checkout</a>
+</div>
 <script type="text/javascript" th:src="@{cart.js}"></script>
+<th:block th:insert="fragments/layout :: bootstrap-scripts"></th:block>
 </body>
 </html>
