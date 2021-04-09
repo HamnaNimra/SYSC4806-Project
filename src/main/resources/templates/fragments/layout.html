@@ -17,9 +17,15 @@
                         th:classappend="${#strings.startsWith(view,'/bookstore')? 'active' : ''}">
                         <a href="/bookstore">Visit Book Store</a>
                     </li>
-                    <li class="nav-item" th:classappend="${#strings.startsWith(view,'/uploadBook')? 'active' : ''}"
+                    <li class="nav-item" style="padding-right:50px;padding-left:50px" th:classappend="${#strings.startsWith(view,'/uploadBook')? 'active' : ''}"
                         th:if="${#request.isUserInRole('USER')}">
                         <a href="/uploadBook">Upload a book</a>
+                    </li>
+                    <li class="nav-item" style="padding-right:50px;padding-left:50px">
+                        <a th:href="@{/logout}">Logout</a>
+                    </li>
+                    <li class="nav-item" style="padding-right:50px;padding-left:50px">
+                        <a th:href="@{/}"}>Profile</a>
                     </li>
                 </ul>
 
