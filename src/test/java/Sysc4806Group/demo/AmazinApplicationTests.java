@@ -36,10 +36,31 @@ class AmazinApplicationTests {
     @Autowired
     private BookRepository repository;
 
-    /*@Test
+    /*
+    @Test
     public void blankSearch() throws Exception {
-        this.mockMvc.perform(get("/search?title=Summer")).andDo(print()).andExpect(status().isOk());
-    }*/
+
+        String url = "http://localhost:8080/signup";
+
+        mockMvc.perform(post(url)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .content(EntityUtils.toString(new UrlEncodedFormEntity(Arrays.asList(
+                new BasicNameValuePair("firstName","Abhi"),
+                new BasicNameValuePair("lastName","Santhosh"),
+                new BasicNameValuePair("email","abhiram.j4@gmail.com"),
+                new BasicNameValuePair("password", "Saintannes0"),
+                new BasicNameValuePair("hasAdminRole","True")
+        ))))).andDo(
+                result -> mockMvc.perform(post("http://localhost:8080/signin")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .contentType(EntityUtils.toString(new UrlEncodedFormEntity(Arrays.asList(
+                        new BasicNameValuePair("email","abhiram.j4@gmail.com"),
+                        new BasicNameValuePair("password", "Saintannes0")
+                ))))).andDo(print())
+        );
+
+        //this.mockMvc.perform(get("/search?title=Summer")).andDo(print()).andExpect(status().isOk());
+    } */
 
     /*@Test
     public void searchWithItemsTest() throws Exception {
