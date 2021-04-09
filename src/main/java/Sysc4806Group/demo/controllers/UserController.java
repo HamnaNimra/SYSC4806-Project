@@ -1,6 +1,5 @@
 package Sysc4806Group.demo.controllers;
 
-<<<<<<< HEAD
 import Sysc4806Group.demo.entities.Role;
 import Sysc4806Group.demo.entities.User;
 import Sysc4806Group.demo.repositories.RoleRepository;
@@ -17,21 +16,11 @@ import Sysc4806Group.demo.entities.User;
 import Sysc4806Group.demo.entities.Cart;
 import Sysc4806Group.demo.repositories.BookRepository;
 import Sysc4806Group.demo.repositories.UserRepository;
-=======
-import Sysc4806Group.demo.entities.Book;
-import Sysc4806Group.demo.entities.User;
-import Sysc4806Group.demo.entities.Cart;
-import Sysc4806Group.demo.repositories.BookRepository;
-import Sysc4806Group.demo.repositories.UserRepository;
->>>>>>> Added the cart feature
 import Sysc4806Group.demo.repositories.CartRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-<<<<<<< HEAD
 import org.springframework.web.servlet.view.RedirectView;
-=======
->>>>>>> Added the cart feature
 
 import java.util.HashSet;
 import java.util.List;
@@ -43,7 +32,6 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 public class UserController {
-<<<<<<< HEAD
     private final AtomicLong counter = new AtomicLong();
 
     @Autowired
@@ -63,17 +51,6 @@ public class UserController {
 
     @Autowired
     PasswordEncoder encoder;
-=======
-    private final UserRepository repository;
-    private final BookRepository bookRepository;
-    private final CartRepository cartRepository;
-
-    UserController(UserRepository repository, BookRepository bookRepository, CartRepository cartRepository) {
-        this.repository = repository;
-        this.bookRepository = bookRepository;
-        this.cartRepository = cartRepository;
-    }
->>>>>>> Added the cart feature
 
     @GetMapping("/signup")
     public String signupForm(Model model) {
