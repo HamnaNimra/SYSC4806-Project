@@ -57,11 +57,9 @@ public class User {
 
     public User(String uid) {
         this.uid = uid;
-        this.userCart = new Cart(uid);
     }
 
     public User() {
-        this.userCart = new Cart();
     }
 
     public String getUid() {
