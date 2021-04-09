@@ -80,8 +80,4 @@ public class Book {
     public void sold() {
         this.inventory -= 1;
     }
-
-    public boolean isOutOfStock() {
-        return (this.getInventory() == 0);
-    }
 }

@@ -2,7 +2,6 @@ package Sysc4806Group.demo.controllers;
 
 import Sysc4806Group.demo.entities.Book;
 import Sysc4806Group.demo.repositories.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +11,11 @@ import java.util.List;
 
 @Controller
 public class BookController {
-    @Autowired
-    BookRepository repository;
+    private final BookRepository repository;
+
+    BookController(BookRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping("/editBook/{id}")
     public String editForm(@PathVariable String id, Model model) {
@@ -91,12 +93,5 @@ public class BookController {
         bookFromDB.setIsbn(book.getIsbn());
         repository.save(bookFromDB);
         return "view-book";
-    }
-
-    @GetMapping("/addItem/{id}")
-    public String addItemForm(@PathVariable String id, Model model) throws Exception {
-        Book book = repository.getOne(id);
-        model.addAttribute("template", book);
-        return "add-item";
     }
 }
