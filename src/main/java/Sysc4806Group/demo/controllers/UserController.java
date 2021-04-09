@@ -164,13 +164,9 @@ public class UserController {
         return "profile";
     }
 
-
     private String getCurrentUserUid() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
-
         return user.getUid();
-
     }
-
 }

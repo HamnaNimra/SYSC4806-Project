@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,10 +19,9 @@ import java.util.Set;
 public class User {
     @Id
     private String uid;
-
     private String firstName;
-
     private String lastName;
+    private float score;
 
     @NotBlank
     @Size(max = 50)
@@ -53,6 +53,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        purchasedBooks = new ArrayList<>();
     }
 
     public User(String uid) {
@@ -130,8 +131,15 @@ public class User {
         this.cart = cart;
     }
 
-
     public void purchaseBook(Book book) {
         purchasedBooks.add(book);
+    }
+
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
     }
 }

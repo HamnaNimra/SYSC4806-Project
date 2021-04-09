@@ -18,7 +18,7 @@ public class Cart {
     @JoinTable( name = "cart_items",
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private List<Book> items; //Needs to have a collection of items in the cart
+    private List<Book> items; //Needs to have    a collection of items in the cart
 
     @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "user_id")

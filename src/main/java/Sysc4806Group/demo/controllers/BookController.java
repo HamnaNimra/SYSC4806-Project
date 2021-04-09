@@ -1,12 +1,18 @@
 package Sysc4806Group.demo.controllers;
 
 import Sysc4806Group.demo.entities.Book;
+import Sysc4806Group.demo.entities.User;
 import Sysc4806Group.demo.repositories.BookRepository;
+import Sysc4806Group.demo.repositories.UserRepository;
+import Sysc4806Group.demo.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.apache.commons.text.similarity.*;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -14,6 +20,9 @@ import java.util.List;
 public class BookController {
     @Autowired
     BookRepository repository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/editBook/{id}")
     public String editForm(@PathVariable String id, Model model) {
@@ -91,5 +100,31 @@ public class BookController {
         bookFromDB.setIsbn(book.getIsbn());
         repository.save(bookFromDB);
         return "view-book";
+    }
+
+    private List<Book> getRecommendations() {
+        List<Book> books = repository.findAll();
+        User user = userRepository.getOne(getCurrentUserUid());
+
+
+
+        if (!user.getPurchasedBooks().isEmpty()) {
+            user.getPurchasedBooks().forEach(book -> {
+
+            });
+
+        } else {
+            Collections.shuffle(books);
+            return books.subList(0, 9);
+        }
+
+
+        return null;
+    }
+
+    private String getCurrentUserUid() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+        return user.getUid();
     }
 }
