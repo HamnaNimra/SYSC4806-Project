@@ -13,45 +13,42 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.apache.commons.text.similarity.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class BookController {
     @Autowired
-    BookRepository repository;
+    BookRepository bookRepository;
 
     @Autowired
     UserRepository userRepository;
 
     @GetMapping("/editBook/{id}")
     public String editForm(@PathVariable String id, Model model) {
-        Book book = repository.getOne(id);
+        Book book = bookRepository.getOne(id);
         model.addAttribute("template", book);
         return "edit-book";
     }
 
     @GetMapping("/search")
     public String searchBook(@RequestParam(value = "title", required = false) String title, Model model) {
-        List<Book> books = repository.findByTitleContainingIgnoreCase(title);
+        List<Book> books = bookRepository.findByTitleContainingIgnoreCase(title);
         model.addAttribute("books", books);
         return "search-result";
     }
 
     @GetMapping("/viewBook/{id}")
     public String viewBook(@PathVariable String id, Model model) {
-        Book book = repository.getOne(id);
+        Book book = bookRepository.getOne(id);
         model.addAttribute("template", book);
         return "view-book";
     }
 
     @PostMapping("/uploadBook")
     public String uploadBook(@ModelAttribute Book book, Model model) {
-        if (!repository.existsById(book.getIsbn())) {
-            repository.save(book);
-            List<Book> books = repository.findAll();
+        if (!bookRepository.existsById(book.getIsbn())) {
+            bookRepository.save(book);
+            List<Book> books = bookRepository.findAll();
             model.addAttribute("books", books);
             return "bookstore";
         } else {
@@ -68,7 +65,7 @@ public class BookController {
 
     @GetMapping("/bookstore")
     public String bookstore(@RequestParam(value = "sort", required = false) String sortBy, Model model) {
-        List<Book> books = repository.findAll();
+        List<Book> books = bookRepository.findAll();
         // Sort through books based on given parameter
         if (sortBy != null) {
             switch (sortBy) {
@@ -95,59 +92,65 @@ public class BookController {
 
     @PostMapping("/updateBook")
     public String updateBook(@ModelAttribute Book book, Model model) {
-        Book bookFromDB = repository.getOne(book.getIsbn());
+        Book bookFromDB = bookRepository.getOne(book.getIsbn());
         bookFromDB.setAuthor(book.getAuthor());
         bookFromDB.setInventory(book.getInventory());
         bookFromDB.setPublisher(book.getPublisher());
         bookFromDB.setTitle(book.getTitle());
         bookFromDB.setPictureUrl(book.getPictureUrl());
         bookFromDB.setIsbn(book.getIsbn());
-        repository.save(bookFromDB);
+        bookRepository.save(bookFromDB);
         return "view-book";
     }
 
     private List<Book> getRecommendations() {
-        List<Book> books = repository.findAll();
+        List<Book> books = bookRepository.findAll();
         User user = userRepository.getOne(getCurrentUserUid());
         JaccardDistance obj = new JaccardDistance();
 
-        List<Book> scoredbooks = new ArrayList<>();
+        Map<String, Book> scoredBooks = new HashMap<>();
 
         if (!user.getPurchasedBooks().isEmpty()) {
             user.getPurchasedBooks().forEach(book -> books.forEach(book1 -> {
-                double titleScore = obj.apply(book.getTitle(), book1.getTitle());
-                double authorScore = obj.apply(book.getAuthor(), book1.getAuthor());
-                double publisherScore = obj.apply(book.getPublisher(), book1.getPublisher());
-                double finalScore = (titleScore * 0.5 + authorScore * 0.3 + publisherScore * 0.2) / 3f;
+                if (!user.getPurchasedBooks().contains(book1)) {
+                    double titleScore = obj.apply(book.getTitle(), book1.getTitle());
+                    double authorScore = obj.apply(book.getAuthor(), book1.getAuthor());
+                    double publisherScore = obj.apply(book.getPublisher(), book1.getPublisher());
+                    double finalScore = (titleScore * 0.7 + authorScore * 0.2 + publisherScore * 0.1);
 
-                if (book1.getScore() != 0.0) {
-                    if (book1.getScore() < finalScore) {
+                    if (book1.getScore() != 0.0) {
+                        if (book1.getScore() < finalScore) {
+                            book1.setScore(finalScore);
+                        }
+                    } else {
                         book1.setScore(finalScore);
                     }
-                } else {
-                    book1.setScore(finalScore);
+                    scoredBooks.put(book1.getTitle(), book1);
                 }
-
-                scoredbooks.add(book1);
             }));
 
-            scoredbooks.sort(Comparator.comparingDouble(Book::getScore));
-            for (int i = 0; i < scoredbooks.size(); i++) {
+            List<Book> scoredBooksList = new ArrayList<>(scoredBooks.values());
+            scoredBooksList.sort(Comparator.comparingDouble(Book::getScore));
+
+            for (int i = 0; i < scoredBooksList.size(); i++) {
                 System.out.println("Book" + i);
-                System.out.println(scoredbooks.get(i).getTitle());
-                System.out.println(scoredbooks.get(i).getAuthor());
-                System.out.println(scoredbooks.get(i).getPublisher());
+                System.out.println(scoredBooksList.get(i).getTitle());
+                System.out.println(scoredBooksList.get(i).getAuthor());
+                System.out.println(scoredBooksList.get(i).getPublisher());
+                System.out.println(scoredBooksList.get(i).getScore());
             }
-            System.out.println();
-            if (scoredbooks.size() >= 10) {
-                return scoredbooks.subList(0, 9);
+            if (scoredBooks.size() >= 5) {
+                return scoredBooksList.subList(0, 4);
             } else {
-                return scoredbooks;
+                return scoredBooksList;
             }
 
+        } else if (books.size() <= 5) {
+            Collections.shuffle(books);
+            return books;
         } else {
             Collections.shuffle(books);
-            return books.subList(0, 9);
+            return books.subList(0, 4);
         }
     }
 

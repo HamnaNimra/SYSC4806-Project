@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="users",
+@Table(name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "email")
         })
@@ -30,8 +30,8 @@ public class User {
     @Size(max = 50)
     private String password;
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(	name = "user_roles",
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
@@ -40,7 +40,7 @@ public class User {
     private Cart cart;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable( name = "user_books",
+    @JoinTable(name = "user_books",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> purchasedBooks;
@@ -121,15 +121,26 @@ public class User {
         this.purchasedBooks = purchasedBooks;
     }
 
-    public Cart getCart(){
+    public Cart getCart() {
         return cart;
     }
 
-    public void setCart(Cart cart){
+    public void setCart(Cart cart) {
         this.cart = cart;
     }
 
     public void purchaseBook(Book book) {
-        purchasedBooks.add(book);
+        if (!has(book)) {
+            purchasedBooks.add(book);
+        }
+    }
+
+    private boolean has(Book b) {
+        for (Book purchasedBook : purchasedBooks) {
+            if (purchasedBook.getIsbn().equals(b.getIsbn())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
