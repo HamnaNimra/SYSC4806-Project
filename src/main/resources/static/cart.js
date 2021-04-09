@@ -53,10 +53,10 @@ function showCart(data) {
 
     var items = '';
     for(var i = 0; i < data.length; i++) {
-        items += '<li class="list-group-item"><a href="/viewBook/'+ data[i].isbn + '">' + data[i].title + '<br />by ' + data[i].author + '</a><a data-isbn="'+ data[i].isbn +'" href="#" onclick="removeFromCart(this.getAttribute(' + "'data-isbn'" + '));">Remove</a></li>';
+        items += '<li class="list-group-item"><a href="/viewBook/'+ data[i].isbn + '">' + data[i].title + '<br />by ' + data[i].author + '</a><br><a data-isbn="'+ data[i].isbn +'" href="#" onclick="removeFromCart(this.getAttribute(' + "'data-isbn'" + '));">Remove</a></li>';
     }
 
-    var template = '<div class="card" style="width: 18rem;">' +
+    var template = '<div class="card">' +
           '<div class="card-body">' +
             '<h5 class="card-title">Your Cart</h5>' +
           '</div>' +

@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Amazin Application</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
-<h1>Amazin Book Store</h1>
-<br>
-<br>
-<a href="/signin">Sign In</a>
-<a href="/signup">Sign Up</a>
+    <div class="container-fluid">
+        <h1>Amazin Book Store</h1>
+        <br>
+        <br>
+        <a class="btn btn-outline-dark" href="/signin">Sign In</a>
+        <a class="btn btn-dark" href="/signup">Sign Up</a>
+    </div>
+    <th:block th:insert="fragments/layout :: bootstrap-scripts"></th:block>
 </body>
 </html>

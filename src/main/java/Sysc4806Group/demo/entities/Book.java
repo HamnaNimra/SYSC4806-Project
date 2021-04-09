@@ -16,6 +16,8 @@ public class Book {
     private String pictureUrl;
     private int inventory;
 
+    private double score;
+
     public Book(String isbn, String title, String author, String publisher, String pictureUrl, int inventory) {
         this.isbn = isbn;
         this.title = title;
@@ -83,5 +85,13 @@ public class Book {
 
     public boolean isOutOfStock() {
         return (this.getInventory() == 0);
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 }

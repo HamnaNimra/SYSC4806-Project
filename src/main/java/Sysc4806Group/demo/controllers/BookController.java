@@ -1,46 +1,54 @@
 package Sysc4806Group.demo.controllers;
 
 import Sysc4806Group.demo.entities.Book;
+import Sysc4806Group.demo.entities.User;
 import Sysc4806Group.demo.repositories.BookRepository;
+import Sysc4806Group.demo.repositories.UserRepository;
+import Sysc4806Group.demo.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.apache.commons.text.similarity.*;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class BookController {
     @Autowired
-    BookRepository repository;
+    BookRepository bookRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/editBook/{id}")
     public String editForm(@PathVariable String id, Model model) {
-        Book book = repository.getOne(id);
+        Book book = bookRepository.getOne(id);
         model.addAttribute("template", book);
         return "edit-book";
     }
 
     @GetMapping("/search")
     public String searchBook(@RequestParam(value = "title", required = false) String title, Model model) {
-        List<Book> books = repository.findByTitleContainingIgnoreCase(title);
+        List<Book> books = bookRepository.findByTitleContainingIgnoreCase(title);
         model.addAttribute("books", books);
         return "search-result";
     }
 
     @GetMapping("/viewBook/{id}")
     public String viewBook(@PathVariable String id, Model model) {
-        Book book = repository.getOne(id);
+        Book book = bookRepository.getOne(id);
         model.addAttribute("template", book);
         return "view-book";
     }
 
     @PostMapping("/uploadBook")
     public String uploadBook(@ModelAttribute Book book, Model model) {
-        if (!repository.existsById(book.getIsbn())) {
-            repository.save(book);
-            List<Book> books = repository.findAll();
+        if (!bookRepository.existsById(book.getIsbn())) {
+            bookRepository.save(book);
+            List<Book> books = bookRepository.findAll();
             model.addAttribute("books", books);
             return "bookstore";
         } else {
@@ -57,7 +65,7 @@ public class BookController {
 
     @GetMapping("/bookstore")
     public String bookstore(@RequestParam(value = "sort", required = false) String sortBy, Model model) {
-        List<Book> books = repository.findAll();
+        List<Book> books = bookRepository.findAll();
         // Sort through books based on given parameter
         if (sortBy != null) {
             switch (sortBy) {
@@ -72,7 +80,8 @@ public class BookController {
                     break;
             }
         } else {
-            // If no parameter -> sort by title (when you first load up bookstore for example))
+            // If no parameter -> sort by title (when you first load up bookstore for
+            // example))
             books.sort(Comparator.comparing(Book::getTitle));
         }
 
@@ -82,14 +91,27 @@ public class BookController {
 
     @PostMapping("/updateBook")
     public String updateBook(@ModelAttribute Book book, Model model) {
-        Book bookFromDB = repository.getOne(book.getIsbn());
+        Book bookFromDB = bookRepository.getOne(book.getIsbn());
         bookFromDB.setAuthor(book.getAuthor());
         bookFromDB.setInventory(book.getInventory());
         bookFromDB.setPublisher(book.getPublisher());
         bookFromDB.setTitle(book.getTitle());
         bookFromDB.setPictureUrl(book.getPictureUrl());
         bookFromDB.setIsbn(book.getIsbn());
-        repository.save(bookFromDB);
+        bookRepository.save(bookFromDB);
         return "view-book";
+    }
+
+    @GetMapping("/addItem/{id}")
+    public String addItemForm(@PathVariable String id, Model model) throws Exception {
+        Book book = bookRepository.getOne(id);
+        model.addAttribute("template", book);
+        return "add-item";
+    }
+
+    private String getCurrentUserUid() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+        return user.getUid();
     }
 }

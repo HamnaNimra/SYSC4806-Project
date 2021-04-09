@@ -7,43 +7,17 @@
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
 </head>
 <body>
-
 <div class="container-fluid">
+    <div class="row" th:replace="fragments/layout :: amazin-navbar"></div>
     <div class="row">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="width:100%">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item" style="padding-right:50px;padding-left:50px">
-                        <a href="/bookstore">Visit Book Store</a>
-                    </li>
-                    <li class="nav-item" >
-                        <a href="/uploadBook">Upload a book</a>
-                    </li>
-
-                </ul>
-                <form class="form-inline my-2 my-lg-0" th:action="@{/search}" method="get">
-                    <input class="form-control mr-sm-2" type="search" th:name="title" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-
-            </div>
-        </nav>
-    </div>
-
-    <div class="row">
-        <table>
+        <table class="table table-hover">
             <thead>
             <tr>
-                <th> Title </th>
-                <th> ISBN </th>
-                <th> Author </th>
-                <th> Publisher </th>
-                <th> Inventory </th>
+                <th scope="col"> Title </th>
+                <th scope="col"> ISBN </th>
+                <th scope="col"> Author </th>
+                <th scope="col"> Publisher </th>
+                <th scope="col"> Inventory </th>
             </tr>
             </thead>
             <tbody>
@@ -56,7 +30,8 @@
                 <td><span th:text="${book.author}"> Author </span></td>
                 <td><span th:text="${book.publisher}"> Publisher </span></td>
                 <td><span th:text="${book.inventory}"> Inventory </span></td>
-                <td><span><a th:href="'/viewBook/'+${book.isbn}">View it</a></span></td>
+                <td><span><a th:href="'/viewBook/'+${book.isbn}">View</a></span></td>
+                <td><span th:unless="${book.isOutOfStock()}"><a th:href="'/addBook/'+${book.isbn}">Add To Cart</a></span></td>
             </tr>
             </tbody>
         </table>
@@ -64,9 +39,7 @@
 </div>
 
 
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+<th:block th:insert="fragments/layout :: bootstrap-scripts"></th:block>
 
 </body>
 </html>

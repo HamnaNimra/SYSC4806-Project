@@ -2,25 +2,20 @@ package Sysc4806Group.demo.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "email")
-        })
+@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "email") })
 public class User {
     @Id
     private String uid;
-
     private String firstName;
-
     private String lastName;
 
     @NotBlank
@@ -32,27 +27,27 @@ public class User {
     @Size(max = 50)
     private String password;
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(	name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private String userRole;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     private Cart cart;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable( name = "user_books",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @JoinTable(name = "user_books", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> purchasedBooks;
 
-    public User(String uid, String firstName, String lastName, String email, String password) {
+    public User(String uid, String firstName, String lastName, String email, String password, String userRole) {
         this.uid = uid;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        purchasedBooks = new ArrayList<>();
+        this.userRole = userRole;
     }
 
     public User(String uid) {
@@ -106,6 +101,14 @@ public class User {
         this.password = password;
     }
 
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -122,16 +125,26 @@ public class User {
         this.purchasedBooks = purchasedBooks;
     }
 
-    public Cart getCart(){
+    public Cart getCart() {
         return cart;
     }
 
-    public void setCart(Cart cart){
+    public void setCart(Cart cart) {
         this.cart = cart;
     }
 
-
     public void purchaseBook(Book book) {
-        purchasedBooks.add(book);
+        if (!has(book)) {
+            purchasedBooks.add(book);
+        }
+    }
+
+    private boolean has(Book b) {
+        for (Book purchasedBook : purchasedBooks) {
+            if (purchasedBook.getIsbn().equals(b.getIsbn())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

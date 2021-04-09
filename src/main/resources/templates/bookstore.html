@@ -3,48 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Book Store</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{stylesheet.css}"/>
 </head>
 <body>
-Sort By:
+<div class="container-fluid">
+    <div class="row" th:replace="fragments/layout :: amazin-navbar"></div>
+    <p>Sort By:</p>
 
-<form th:action="@{/bookstore}">
-    <input type="radio" id="title" th:name="sort" value="title">
-    <label for="title">Title</label><br>
-    <input type="radio" id="author" th:name="sort" value="author">
-    <label for="author">Author</label><br>
-    <input type="radio" id="publisher" th:name="sort" value="publisher">
-    <label for="publisher">Publisher</label>
-    <input type="submit" value="Submit">
-</form>
-
-<a th:href="@{/logout}">Logout</a>
-<table>
-    <thead>
-    <tr>
-        <th> Title</th>
-        <th> ISBN</th>
-        <th> Author</th>
-        <th> Publisher</th>
-        <th> Inventory</th>
-        <th> Add To Cart </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${books.empty}">
-        <td colspan="2"> No Books Available</td>
-    </tr>
-    <tr th:each="book : ${books}">
-        <td><span th:text="${book.title}"> Title </span></td>
-        <td><span th:text="${book.isbn}"> ISBN </span></td>
-        <td><span th:text="${book.author}"> Author </span></td>
-        <td><span th:text="${book.publisher}"> Publisher </span></td>
-        <td><span th:text="${book.inventory}"> Inventory </span></td>
-        <td><span><a th:href="'/viewBook/'+${book.isbn}">View it</a></span></td>
-        <td><span th:unless="${book.isOutOfStock()}"><a th:data-isbn="${book.isbn}" th:onclick="addToCart(this.getAttribute('data-isbn'));" href="#">Add To Cart</a></span></td>
-    </tr>
-    </tbody>
-</table>
+    <form th:action="@{/bookstore}">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="title" th:name="sort" value="title">
+            <label class="form-check-label" for="title">Title</label><br>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="author" th:name="sort" value="author">
+            <label class="form-check-label" for="author">Author</label><br>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="publisher" th:name="sort" value="publisher">
+            <label class="form-check-label" for="publisher">Publisher</label><br>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="btn btn-dark" type="submit" value="Submit"/>
+        </div>
+    </form>
+    <br>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col"> Title</th>
+            <th scope="col"> ISBN</th>
+            <th scope="col"> Author</th>
+            <th scope="col"> Publisher</th>
+            <th scope="col"> Inventory</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${books.empty}">
+            <td colspan="6"> No Books Available</td>
+        </tr>
+        <tr th:each="book : ${books}">
+            <td><span th:text="${book.title}"> Title </span></td>
+            <td><span th:text="${book.isbn}"> ISBN </span></td>
+            <td><span th:text="${book.author}"> Author </span></td>
+            <td><span th:text="${book.publisher}"> Publisher </span></td>
+            <td><span th:text="${book.inventory}"> Inventory </span></td>
+            <td><span><a th:href="'/viewBook/'+${book.isbn}">View</a></span></td>
+            <td><span th:unless="${book.isOutOfStock()}"><a th:data-isbn="${book.isbn}" th:onclick="addToCart(this.getAttribute('data-isbn'));" href="#">Add To Cart</a></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 <script type="text/javascript" th:src="@{cart.js}"></script>
+<th:block th:insert="fragments/layout :: bootstrap-scripts"></th:block>
 
 </body>
 </html>
