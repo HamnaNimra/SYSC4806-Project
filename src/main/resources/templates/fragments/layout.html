@@ -21,11 +21,13 @@
                         th:if="${#request.isUserInRole('USER')}">
                         <a href="/uploadBook">Upload a book</a>
                     </li>
-                    <li class="nav-item" style="padding-right:50px;padding-left:50px">
-                        <a th:href="@{/logout}">Logout</a>
-                    </li>
+
                     <li class="nav-item" style="padding-right:50px;padding-left:50px">
                         <a th:href="@{/}"}>Profile</a>
+                    </li>
+
+                    <li class="nav-item" style="padding-right:50px;padding-left:50px">
+                        <a th:href="@{/logout}">Logout</a>
                     </li>
                 </ul>
 
