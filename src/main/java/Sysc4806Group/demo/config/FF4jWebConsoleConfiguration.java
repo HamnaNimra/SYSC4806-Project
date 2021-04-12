@@ -3,6 +3,7 @@ package Sysc4806Group.demo.config;
 import org.ff4j.FF4j;
 import org.ff4j.spring.boot.web.api.config.EnableFF4jSwagger;
 import org.ff4j.web.FF4jDispatcherServlet;
+import org.ff4j.web.embedded.ConsoleServlet;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 // Enable the REST API documentation
 @EnableFF4jSwagger
 // The class should be on classpath : FF4jDispatcherServlet
-@ConditionalOnClass({FF4jDispatcherServlet.class})
+@ConditionalOnClass({ConsoleServlet.class, FF4jDispatcherServlet.class})
 // Setup FF4j first, not is required
 @AutoConfigureAfter(FF4jConfig.class)
 public class FF4jWebConsoleConfiguration extends SpringBootServletInitializer {
