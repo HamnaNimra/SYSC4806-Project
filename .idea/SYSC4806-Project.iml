@@ -34,8 +34,6 @@
     <orderEntry type="library" name="Maven: org.unbescape:unbescape:1.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.4.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-json:2.4.3" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.4" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-parameter-names:2.11.4" level="project" />
@@ -61,7 +59,7 @@
     <orderEntry type="library" name="Maven: jakarta.xml.bind:jakarta.xml.bind-api:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: jakarta.activation:jakarta.activation-api:1.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:3.18.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest:2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest:2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter:5.7.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-params:5.7.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.7.1" level="project" />
@@ -79,8 +77,8 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.7.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.testcontainers:junit-jupiter:1.15.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.testcontainers:testcontainers:1.15.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:2.2" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.13.2" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.commons:commons-compress:1.20" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.rnorth.duct-tape:duct-tape:1.0.8" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.rnorth.visible-assertions:visible-assertions:2.1.2" level="project" />
@@ -125,7 +123,6 @@
     <orderEntry type="library" name="Maven: org.glassfish.jaxb:jaxb-runtime:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jaxb:txw2:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: com.sun.istack:istack-commons-runtime:3.0.11" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: com.sun.activation:jakarta.activation:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-jpa:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:5.3.4" level="project" />
@@ -136,10 +133,63 @@
     <orderEntry type="library" name="Maven: org.springframework.hateoas:spring-hateoas:1.2.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.atteo:evo-inflector:1.2.2" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.4" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:2.0.1.Final" level="project" />
     <orderEntry type="library" name="Maven: com.h2database:h2:1.4.200" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-text:1.9" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.11" level="project" />
+    <orderEntry type="library" name="Maven: org.ff4j:ff4j-webapi-jersey2x:1.8.11" level="project" />
+    <orderEntry type="library" name="Maven: org.ff4j:ff4j-webapi:1.8.11" level="project" />
+    <orderEntry type="library" name="Maven: org.ff4j:ff4j-core:1.8.11" level="project" />
+    <orderEntry type="library" name="Maven: io.swagger:swagger-annotations:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: io.swagger:swagger-jaxrs:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: io.swagger:swagger-core:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: io.swagger:swagger-models:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.reflections:reflections:0.9.10" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.findbugs:annotations:2.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
+    <orderEntry type="library" name="Maven: javax.ws.rs:javax.ws.rs-api:2.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.ff4j:ff4j-utils-json:1.8.11" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.woodstox:stax2-api:4.2.1" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.woodstox:woodstox-core:6.2.3" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-joda:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: joda-time:joda-time:2.9.9" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-client:2.32" level="project" />
+    <orderEntry type="library" name="Maven: jakarta.ws.rs:jakarta.ws.rs-api:2.1.6" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2.external:jakarta.inject:2.6.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-common:2.32" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2:osgi-resource-locator:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.activation:jakarta.activation:1.2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-server:2.32" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.media:jersey-media-jaxb:2.32" level="project" />
+    <orderEntry type="library" name="Maven: jakarta.validation:jakarta.validation-api:2.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.media:jersey-media-json-jackson:2.32" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.ext:jersey-entity-filtering:2.32" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet:2.32" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet-core:2.32" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.connectors:jersey-grizzly-connector:2.32" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-http-client:1.16" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-websockets:2.4.4" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-framework:2.4.4" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-http:2.4.4" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:connection-pool:2.4.4" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.test-framework:jersey-test-framework-core:2.32" level="project" />
+    <orderEntry type="library" name="Maven: jakarta.servlet:jakarta.servlet-api:4.0.4" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.32" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.32" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-servlet:2.32" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-http-servlet:2.3.23" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-http-server:2.3.23" level="project" />
+    <orderEntry type="library" name="Maven: io.swagger:swagger-jersey2-jaxrs:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.media:jersey-media-multipart:2.32" level="project" />
+    <orderEntry type="library" name="Maven: org.jvnet.mimepull:mimepull:1.9.13" level="project" />
   </component>
 </module>
