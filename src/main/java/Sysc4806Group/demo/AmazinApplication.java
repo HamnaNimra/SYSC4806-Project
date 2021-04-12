@@ -2,19 +2,35 @@ package Sysc4806Group.demo;
 
 import Sysc4806Group.demo.entities.Book;
 import Sysc4806Group.demo.repositories.BookRepository;
+import org.ff4j.FF4j;
+import org.ff4j.core.Feature;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import javax.annotation.PostConstruct;
+
 @SpringBootApplication
 public class AmazinApplication {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    public FF4j ff4j;
+
+    private static final String FEATURE_SHOW_RECOMMENDATIONS = "showRecommendations";
+
     public static void main(String[] args) {
         SpringApplication.run(AmazinApplication.class, args);
+    }
+
+    @PostConstruct
+    public void populateDummyFeatureForMySample() {
+        if (!ff4j.exist(FEATURE_SHOW_RECOMMENDATIONS)) {
+            ff4j.createFeature(new Feature(FEATURE_SHOW_RECOMMENDATIONS, true));
+        }
     }
 
     @Bean

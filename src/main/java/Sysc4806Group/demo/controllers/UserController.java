@@ -6,6 +6,7 @@ import Sysc4806Group.demo.repositories.RoleRepository;
 import Sysc4806Group.demo.repositories.UserRepository;
 import Sysc4806Group.demo.services.UserDetailsImpl;
 import org.apache.commons.text.similarity.JaccardDistance;
+import org.ff4j.FF4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +29,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @Controller
 public class UserController {
     private final AtomicLong counter = new AtomicLong();
-
     @Autowired
     AuthenticationManager authenticationManager;
 

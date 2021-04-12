@@ -30,5 +30,4 @@ public class WebAppController {
             return "index";
         }
     }
-
 }
