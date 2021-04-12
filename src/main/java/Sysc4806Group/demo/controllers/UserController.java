@@ -29,6 +29,11 @@ import java.util.concurrent.atomic.AtomicLong;
 @Controller
 public class UserController {
     private final AtomicLong counter = new AtomicLong();
+    private static final String FEATURE_SHOW_RECOMMENDATIONS = "showRecommendations";
+
+    @Autowired
+    public FF4j ff4j;
+
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -157,7 +162,14 @@ public class UserController {
 
         model.addAttribute("user", user);
 
-        List<Book> recBooks = getRecommendations();
+        List<Book> books = bookRepository.findAll();
+        Collections.shuffle(books);
+        List<Book> recBooks = books.subList(0, 10);
+
+        if (ff4j.check(FEATURE_SHOW_RECOMMENDATIONS)) {
+            recBooks = getRecommendations();
+        }
+
         model.addAttribute("recBooks", recBooks);
         System.out.println(recBooks.size() + recBooks.toString());
         return "profile";
